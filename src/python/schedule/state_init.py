@@ -17,7 +17,7 @@ def get_sch_init_state(
                     subject_to_group, sub_groups)
 
 
-def init_state():
+def init_sch():
     if default_init_enable:
         return get_sch_init_state(default_lecture_rooms, default_casual_rooms, default_teachers, default_subjects,
                                   default_lessons,
@@ -26,4 +26,4 @@ def init_state():
 
 
 if __name__ == "__main__":
-    init_state()
+    init_sch()

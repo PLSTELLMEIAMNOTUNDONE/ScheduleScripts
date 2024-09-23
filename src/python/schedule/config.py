@@ -1,16 +1,19 @@
 default_init_enable = True
-default_lecture_rooms = 5
+default_lecture_rooms = 8
 default_casual_rooms = 0
-default_teachers = 3
-default_subjects = 3
+default_teachers = 10
+default_subjects = 6
 default_lessons = 30
-default_casual_groups = 2
+default_casual_groups = 6
 default_lecture_groups = 0
 # ||| - g; ---s
 default_subjectGroup = [
-    [1, 3],
-    [5, 3],
-    [1, 2]
+    [1, 3, 1, 2, 4, 0],
+    [1, 3, 1, 2, 4, 0],
+    [1, 3, 1, 2, 4, 0],
+    [1, 3, 1, 2, 4, 0],
+    [1, 3, 1, 2, 4, 0],
+    [1, 3, 1, 2, 4, 5]
 ]
 default_subGroup = {}
 
