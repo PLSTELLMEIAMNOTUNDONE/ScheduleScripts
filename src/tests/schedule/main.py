@@ -1,8 +1,10 @@
 import unittest
 from src.python.schedule.config import *
+
 from src.python.schedule.state_init import init_state
 
-class TestMathFunctions(unittest.TestCase):
+
+class TestInit(unittest.TestCase):
     def test_default(self):
         state = init_state()
         self.assertEqual(default_lecture_rooms, state.lecture_rooms)
@@ -14,5 +16,3 @@ class TestMathFunctions(unittest.TestCase):
         self.assertEqual(default_lecture_groups, state.lecture_groups)
         self.assertEqual(default_casual_rooms, state.casual_rooms)
         self.assertEqual(default_casual_groups, state.casual_groups)
-
-

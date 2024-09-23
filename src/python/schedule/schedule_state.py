@@ -1,4 +1,3 @@
-
 class SchState:
     def __init__(self,
                  lecture_rooms,
@@ -10,12 +9,12 @@ class SchState:
                  lecture_groups,
                  subject_to_group,
                  sub_groups):
-        unity = {}
+        self.unity = {}
         for g in range(casual_groups + lecture_groups):
-            unity[g] = [g]
+            self.unity[g] = [g]
             for lg, v in sub_groups.items():
                 if g in v:
-                    unity[g].append(lg)
+                    self.unity[g].append(lg)
         self.lecture_rooms = lecture_rooms
         self.casual_rooms = casual_rooms
         self.teachers = teachers
@@ -39,6 +38,7 @@ class SchState:
         self.lessonsNames = {}
         self.groupsNames = {}
         self.teachersNames = {}
+
         for r in self.casual_rooms_range:
             self.roomsNames[r] = "cr" + str(r + 1)
         for r in self.lecture_rooms_range:
@@ -59,5 +59,3 @@ class SchState:
             for g in self.all_groups:
                 if subject_to_group[s][g] != 0:
                     self.subject_group_map[(s, g)] = subject_to_group[s][g]
-
-
