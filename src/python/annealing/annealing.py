@@ -32,7 +32,7 @@ def energy(sch_state: SchState, sa_state: AnnealingState, result_sch):
         p = l % 5
         cons[(t, l)] += 1
         if cons[(t, l)] > 1:
-            ans += bad_coef_same_day
+            ans += bad_coef_same_day * cons[(t, l)]
         if last_in_day[d][t] != -1 and last_in_day[d][t] != p - 1:
             ans += bad_coef_window
         last_in_day[d][t] = p
@@ -41,7 +41,7 @@ def energy(sch_state: SchState, sa_state: AnnealingState, result_sch):
 
 
 def SA_for_teachers(sch_state: SchState, result_sch, energy_func, temp_func, transition_func, eps=1e-10):
-    temp = 1000000
+    temp = 100000
     sa_state = init_state(sch_state)
     E = energy_func(sch_state, sa_state, result_sch)
     i = 1

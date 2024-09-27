@@ -5,7 +5,7 @@ import math
 
 
 def temperature(t, i):
-    return t / (0.01 * i)
+    return t / (0.005 * i)
 
 
 def transition(energy, temp):

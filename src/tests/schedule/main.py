@@ -1,12 +1,12 @@
 import unittest
 from src.python.schedule.config import *
 
-from src.python.schedule.state_init import init_state
+from src.python.schedule.state_init import init_sch
 
 
 class TestInit(unittest.TestCase):
     def test_default(self):
-        state = init_state()
+        state = init_sch()
         self.assertEqual(default_lecture_rooms, state.lecture_rooms)
         self.assertEqual(default_lessons, state.lessons)
         self.assertEqual(default_teachers, state.teachers)

@@ -15,7 +15,7 @@ def counted(f):
 
 class TestModelOp(unittest.TestCase):
     def test_build(self):
-        state = init_state()
+        state = init_sch()
         order = []
         @counted
         def dummy1(state: SchState, plausable, schedule: dict, model):
@@ -30,7 +30,7 @@ class TestModelOp(unittest.TestCase):
         assert order == [1, 2, 3, 1, 2]
 
     def test_init_model(self):
-        state = init_state()
+        state = init_sch()
 
         @counted
         def dummy(state: SchState, plausable, schedule: dict, model):
@@ -41,7 +41,7 @@ class TestModelOp(unittest.TestCase):
         assert dummy.calls == 1
 
     def test_full_sequence(self):
-        state = init_state()
+        state = init_sch()
 
         model = cp_model.CpModel()
         build(state=state, plausable=dummy_plausable, model=model, schedule={}, fun=init_model)(
