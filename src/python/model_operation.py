@@ -83,10 +83,10 @@ def clustering(state: SchState, plausable, schedule: dict, model):
 
 
 def prioritize_start_of_day(state: SchState, plausable, schedule: dict, model):
-    z = sum(schedule[(r, s, l, g)]
+    z = sum(schedule[(r, s, l, g)] * ((l + 0) % 5)
             for r in state.all_rooms
             for l in state.all_lessons
-            for s in state.all_subjects * ((l + 0) % 5)
+            for s in state.all_subjects
             for g in state.all_groups
             if plausable(r, s, l, g))
     model.Minimize(z)

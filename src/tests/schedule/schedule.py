@@ -7,5 +7,7 @@ class TestSchedule(unittest.TestCase):
     def test_default_sch(self):
         state = init_sch()
 
-        res, e = sch(state)
-        print_sch(state, res)
+        schedule, e, res = sch(state)
+        schedule.print_sch()
+        print(e)
+

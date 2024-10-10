@@ -1,3 +1,6 @@
+from typing import Tuple
+
+
 class SchState:
     def __init__(self,
                  lecture_rooms,
@@ -9,6 +12,7 @@ class SchState:
                  lecture_groups,
                  subject_to_group,
                  sub_groups):
+        self.possible = dummy
         self.unity = {}
         for g in range(casual_groups + lecture_groups):
             self.unity[g] = [g]
@@ -53,9 +57,23 @@ class SchState:
             self.groupsNames[g] = str([self.groupsNames[s] for s in self.sub_groups[g]])
         for t in self.all_teachers:
             self.teachersNames[t] = "t" + str(t + 1)
+
+        self.groupsNames[-1] = "no group"
+        self.roomsNames[-1] = "no room"
+        self.subjectsNames[-1] = "no subject"
+        self.teachersNames[-1] = "no teacher"
+
         self.subject_group_map = {}
 
         for s in self.all_subjects:
             for g in self.all_groups:
                 if subject_to_group[s][g] != 0:
                     self.subject_group_map[(s, g)] = subject_to_group[s][g]
+
+    def sg_possible(self, sg: Tuple[int, int]):
+        s, g = sg
+        return self.possible(g, -1, -1, s, -1)
+
+
+def dummy(g, t, r, s, l):
+    return True

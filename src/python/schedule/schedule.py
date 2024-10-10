@@ -1,3 +1,4 @@
+from src.python.schedule.post_procces.Schedule import Schedule
 from src.python.model_operation import *
 
 
@@ -7,6 +8,7 @@ def sch(state: SchState):
     build(state=state, plausable=dummy_plausable, model=model, schedule=schedule, fun=init_model)(
         at_most_one_group_for_time)(
         at_most_one_room_for_time)(
+        prioritize_start_of_day)(
         exact_amount_of_classes_for_group)(
         clustering, end=True
     )
@@ -22,7 +24,7 @@ def sch(state: SchState):
     if status == cp_model.FEASIBLE:
         print("ok")
     if status == cp_model.INFEASIBLE:
-        print("not ok")
+        raise Exception("INFEASIBLE state")
 
     print(status)
     result = {}
@@ -38,9 +40,17 @@ def sch(state: SchState):
 
     # fix!
 
-    return result, errors(state, result)
+    return Schedule(result,
+                    state,
+                    6,
+                    5,
+                    state.subjectsNames,
+                    state.groupsNames,
+                    state.roomsNames,
+                    state.teachersNames
+                    ), errors(state, result), result
 
-
+# deprecated
 def errors(state: SchState, schedule_inst):
     e = 0
     for g in state.all_groups:
@@ -68,13 +78,14 @@ def errors(state: SchState, schedule_inst):
     return e
 
 
+# deprecated
 def print_sch(state: SchState, result):
     ans = {}
     for l in state.all_lessons:
         ans[l] = "расписания на день " + str((l // 5) + 1) + " пара № " + str((l % 5) + 1) + "\n"
     for k, v in result.items():
         r, s, l, g = k
-        ans[l] += state.subjectsNames[s] + " проходит y грyппы " + state.groupsNames[g] + " в kабинете " + \
+        ans[l] += state.subjectsNames[s] + " проходит y грyппы " + state.groupsNames[g] + " в кабинете " + \
                   state.roomsNames[r] + "\n"
     for l in state.all_lessons:
         print(ans[l])
