@@ -21,11 +21,10 @@ def energy(sa_state: AnnealingState,
     for d in schedule.days.keys():
         last_in_day[d] = [-1 for _ in range(schedule.sch_state.teachers)]
 
-
     for d, day in schedule.days.items():
         for p, slot in day.slots.items():
             for entity in slot.state:
-                g, r, s, t = entity
+                g, r, s, _ = entity
                 l = slot.raw_num
                 t = sa_state.state_map[(s, g)]
                 if (t, l) not in cons.keys():
@@ -33,7 +32,7 @@ def energy(sa_state: AnnealingState,
                 cons[(t, l)] += 1
                 if cons[(t, l)] > 1:
                     ans += bad_coef_same_day
-                if last_in_day[d][t] != -1 and last_in_day[d][t] != p - 1:
+                if last_in_day[d][t] != -1 and last_in_day[d][t] < p - 1:
                     ans += bad_coef_window
                 last_in_day[d][t] = p
 
@@ -46,12 +45,13 @@ def SA_for_teachers(schedule: Schedule,
                     transition_func,
                     eps=1e-1000,
                     temp=10000):
-    sa_state = init_state(schedule.sch_state)
+    sa_state = init_state(schedule)
     E = energy_func(sa_state, schedule)
     i = 1
     best_state = sa_state.copy()
     best_E = E
     while temp > eps:
+
         start_time = time.time()
         fix = sa_state.change_schedule(schedule)
 
@@ -63,13 +63,13 @@ def SA_for_teachers(schedule: Schedule,
         else:
             print("changed")
             E = new_E
-        if E == 0:
-            print("break")
-            break
         if E < best_E:
             best_E = E
             best_state = sa_state.copy()
         temp = temp_func(temp, i)
+        if best_E == 0:
+            print("break")
+            break
         i += 1
         print(f'step: {i}, enegry : {E}, temp : {temp}, time : {time.time() - start_time}')
     return best_state

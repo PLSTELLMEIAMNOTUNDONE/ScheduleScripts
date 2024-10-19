@@ -18,33 +18,33 @@ class TestModelOp(unittest.TestCase):
         state = init_sch()
         order = []
         @counted
-        def dummy1(state: SchState, plausable, schedule: dict, model):
+        def dummy1(state: SchState, schedule: dict, model):
             order.append(dummy1.calls)
 
         @counted
-        def dummy2(state: SchState, plausable, schedule: dict, model):
+        def dummy2(state: SchState, schedule: dict, model):
             order.append(dummy2.calls)
 
         model = cp_model.CpModel()
-        build(state, dummy_plausable, {}, model, dummy1)(dummy1)(dummy1)(dummy2)(dummy2, end=True)
+        build(state, {}, model, dummy1)(dummy1)(dummy1)(dummy2)(dummy2, end=True)
         assert order == [1, 2, 3, 1, 2]
 
     def test_init_model(self):
         state = init_sch()
 
         @counted
-        def dummy(state: SchState, plausable, schedule: dict, model):
+        def dummy(state: SchState, schedule: dict, model):
             return
 
         model = cp_model.CpModel()
-        build(state, dummy_plausable, {}, model, init_model)(dummy, end=True)
+        build(state, {}, model, init_model)(dummy, end=True)
         assert dummy.calls == 1
 
     def test_full_sequence(self):
         state = init_sch()
 
         model = cp_model.CpModel()
-        build(state=state, plausable=dummy_plausable, model=model, schedule={}, fun=init_model)(
+        build(state=state, model=model, schedule={}, fun=init_model)(
             at_most_one_group_for_time)(
             at_most_one_room_for_time)(
             exact_amount_of_classes_for_group)(

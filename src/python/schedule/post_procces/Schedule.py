@@ -155,9 +155,9 @@ class Schedule:
         for k, v in schedule_info.items():
             if v == 0:
                 continue
-            r, s, l, g = k
+            r, s, l, g, t = k
             day_num, slot_num = self.get_day_and_slot(l)
-            self[day_num][slot_num].add_entity(g, r, s, -1)
+            self[day_num][slot_num].add_entity(g, r, s, t)
 
     def get_day_and_slot(self, l):
         return (l // self.slots_num) + 1, (l % self.slots_num) + 1
@@ -191,3 +191,59 @@ class Schedule:
 
                 print(ans[l])
         print("расписание содержит " + str(errors) + " конфликтов")
+
+    def windows_for_teachers(self):
+
+        cons = {}
+        ans = 0
+        last_in_day = {}
+        for d in self.days.keys():
+            last_in_day[d] = [-1 for _ in range(self.sch_state.teachers)]
+
+        for d, day in self.days.items():
+            for p, slot in day.slots.items():
+                for entity in slot.state:
+                    g, r, s, t = entity
+                    l = slot.raw_num
+                    if (t, l) not in cons.keys():
+                        cons[(t, l)] = 0
+                    cons[(t, l)] += 1
+                    if last_in_day[d][t] != -1 and last_in_day[d][t] < p - 1:
+                        ans += 1
+                        print("Окно у преподавателя " +
+                              self.teacher_names[t] +
+                              " в день " + str(d) +
+                              " пара номер " +
+                              str(p) + " номер предыдущей пары " +
+                              str(last_in_day[d][t]))
+                    last_in_day[d][t] = p
+
+        return ans
+
+    def windows_for_groups(self):
+
+        cons = {}
+        ans = 0
+        last_in_day = {}
+        for d in self.days.keys():
+            last_in_day[d] = [-1 for _ in self.sch_state.all_groups]
+
+        for d, day in self.days.items():
+            for p, slot in day.slots.items():
+                for entity in slot.state:
+                    g, r, s, t = entity
+                    l = slot.raw_num
+                    if (g, l) not in cons.keys():
+                        cons[(g, l)] = 0
+                    cons[(g, l)] += 1
+                    if last_in_day[d][g] != -1 and last_in_day[d][g] < p - 1:
+                        ans += 1
+                        print("Окно у группы " +
+                              self.groups_names[g] +
+                              " в день " + str(d) +
+                              " пара номер " +
+                              str(p) + " номер предыдущей пары " +
+                              str(last_in_day[d][g]))
+                    last_in_day[d][g] = p
+
+        return ans

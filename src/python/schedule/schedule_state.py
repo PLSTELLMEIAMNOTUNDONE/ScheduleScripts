@@ -11,8 +11,9 @@ class SchState:
                  casual_groups,
                  lecture_groups,
                  subject_to_group,
-                 sub_groups):
-        self.possible = dummy
+                 sub_groups,
+                 possible):
+        self.possible = possible
         self.unity = {}
         for g in range(casual_groups + lecture_groups):
             self.unity[g] = [g]
@@ -69,10 +70,9 @@ class SchState:
             for g in self.all_groups:
                 if subject_to_group[s][g] != 0:
                     self.subject_group_map[(s, g)] = subject_to_group[s][g]
-
+    #!!!!!!!!!!!!!!!!!!!!!
     def sg_possible(self, sg: Tuple[int, int]):
-        s, g = sg
-        return self.possible(g, -1, -1, s, -1)
+        return True
 
 
 def dummy(g, t, r, s, l):

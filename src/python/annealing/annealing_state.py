@@ -6,15 +6,16 @@ from src.python.annealing.util import *
 from copy import copy
 
 
-def get_possible_pair_group_subject(sch_state: SchState):
+def get_possible_pair_group_subject(schedule: Schedule):
+    sch_state = schedule.sch_state
     return list(filter(
         sch_state.sg_possible,
         list(sch_state.subject_group_map.keys())
     ))
 
 
-def rand_relatable_pair_group_subject(sch_state: SchState):
-    return choice(get_possible_pair_group_subject(sch_state))
+def rand_relatable_pair_group_subject(schedule: Schedule):
+    return choice(get_possible_pair_group_subject(schedule))
 
 
 class AnnealingState:
@@ -38,12 +39,12 @@ class AnnealingState:
         while n > 0:
             n -= 1
             if len(self.unused_teachers) == 0:
-                us, ug = rand_relatable_pair_group_subject(schedule.sch_state)
-                vs, vg = rand_relatable_pair_group_subject(schedule.sch_state)
+                us, ug = rand_relatable_pair_group_subject(schedule)
+                vs, vg = rand_relatable_pair_group_subject(schedule)
                 self.state_map[(us, ug)], self.state_map[(vs, vg)] = self.state_map[(vs, vg)], self.state_map[(us, ug)]
                 fix = self.get_fix(ug, vg, us, vs, fix)
             else:
-                us, ug = rand_relatable_pair_group_subject(schedule.sch_state)
+                us, ug = rand_relatable_pair_group_subject(schedule)
                 old_t = self.state_map[(us, ug)]
                 new_t = self.unused_teachers.pop()
                 self.state_map[(us, ug)] = new_t
@@ -74,11 +75,16 @@ def make_state(state: SchState):
     return AnnealingState(state_map, unused_teachers, teachers_count)
 
 
-def init_state(sch_state: SchState):
+def init_state(sch: Schedule):
+    sch_state = sch.sch_state
     state = make_state(sch_state)
-    for g in range(sch_state.casual_groups):
-        for s in range(sch_state.subjects):
-            if sch_state.sg_possible((s, g)):
-                new_t = randrange(sch_state.teachers)
-                state.add(s, g, new_t)
+    for d, day in sch.days.items():
+        for p, slot in day.slots.items():
+            for entity in slot.state:
+                g, r, s, t = entity
+                if (s, g) in state.state_map.keys():
+                    continue
+                if t == -1:
+                    t = randrange(sch_state.teachers)
+                state.add(s, g, t)
     return state
