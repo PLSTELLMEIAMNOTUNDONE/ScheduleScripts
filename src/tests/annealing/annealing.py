@@ -4,6 +4,7 @@ from src.python.schedule.schedule import *
 from src.python.schedule.state_init import *
 import sys
 
+
 class TestAnnealing(unittest.TestCase):
 
     def test_init_energy(self):
@@ -19,7 +20,6 @@ class TestAnnealing(unittest.TestCase):
         schedule.print_sch()
         print(schedule.windows_for_teachers())
 
-
     def test_default_sch_with_default_sa(self):
         sch_state = init_sch()
 
@@ -27,12 +27,25 @@ class TestAnnealing(unittest.TestCase):
 
         # ? schedule = dict(sorted(sch_result.items(), key=lambda item: item[0][2])) ?
         sa_state = SA_for_teachers(schedule=schedule,
-                                   energy_func=energy,
-                                   temp_func=temperature,
-                                   transition_func=transition)
+                                   energy_func=energy)
         # print_sch_w_teachers(sch_state, sa_state, sch_result)
         print(energy(sa_state=sa_state, schedule=schedule))
         # sys.setrecursionlimit(20000)
+        sa_state.construct_schedule(schedule=schedule)
+        schedule.print_sch()
+
+        print(schedule.windows_for_teachers())
+
+    def test_fast_sch_with_default_sa(self):
+        sch_state = init_sch()
+
+        schedule, e, e2, schedule_res = fast_sch(sch_state)
+
+        sa_state = SA_for_teachers(schedule=schedule,
+                                   energy_func=energy)
+
+        print(energy(sa_state=sa_state, schedule=schedule))
+
         sa_state.construct_schedule(schedule=schedule)
         schedule.print_sch()
 

@@ -14,3 +14,17 @@ class TestSchedule(unittest.TestCase):
         print(schedule.windows_for_teachers())
         print(schedule.windows_for_groups())
 
+    def test_execution_configuration(self):
+        config = full_instance()
+        last_option = config.exclude_last_option()
+        self.assertEqual(last_option.enable, False)
+        self.assertEqual(last_option.priority, 8)
+        last_option = config.exclude_last_option()
+        self.assertEqual(last_option.enable, False)
+        self.assertEqual(last_option.priority, 7)
+        last_option = config.exclude_last_option()
+        self.assertEqual(last_option.enable, False)
+        self.assertEqual(last_option.priority, 6)
+        last_option = config.exclude_last_option()
+        self.assertEqual(last_option.enable, False)
+        self.assertEqual(last_option.priority, 5)

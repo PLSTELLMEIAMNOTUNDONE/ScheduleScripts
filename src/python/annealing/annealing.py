@@ -2,19 +2,16 @@ from src.python.annealing.annealing_state import *
 from src.python.schedule.schedule_state import SchState
 from src.python.schedule.post_procces.Schedule import Schedule
 from src.python.annealing.util import *
+from src.python.common.records.recorder import recorder
 import time
 
+recorder = recorder("Annealing", True)
 
-# from random import random
-
-
-#
-# cons = {}
 
 def energy(sa_state: AnnealingState,
            schedule: Schedule):
     cons = {}
-    bad_coef_window = 1
+    bad_coef_window = 10
     bad_coef_same_day = 100
     ans = 0
     last_in_day = {}
@@ -41,12 +38,12 @@ def energy(sa_state: AnnealingState,
 
 def SA_for_teachers(schedule: Schedule,
                     energy_func,
-                    temp_func,
-                    transition_func,
                     eps=1e-1000,
                     temp=10000):
     sa_state = init_state(schedule)
     E = energy_func(sa_state, schedule)
+    transition_func = get_transition_fun()
+    temp_func = get_temp_fun()
     i = 1
     best_state = sa_state.copy()
     best_E = E
@@ -58,20 +55,21 @@ def SA_for_teachers(schedule: Schedule,
         new_E = energy_func(sa_state, schedule)
         delt_E = new_E - E
         if delt_E >= 0 and not transition_func(delt_E, temp):
-            print("fixed")
+            recorder.record("fixed")
             fix()
         else:
-            print("changed")
+            recorder.record("changed")
             E = new_E
         if E < best_E:
             best_E = E
             best_state = sa_state.copy()
         temp = temp_func(temp, i)
         if best_E == 0:
-            print("break")
+            recorder.record("break")
             break
         i += 1
-        print(f'step: {i}, enegry : {E}, temp : {temp}, time : {time.time() - start_time}')
+        recorder.record(f'step: {i}, enegry : {E}, temp : {temp}, time : {time.time() - start_time}')
+    recorder.record(f'step: {i}, enegry : {best_E}, temp : {temp}')
     return best_state
 
 

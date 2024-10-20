@@ -159,9 +159,9 @@ def prioritize_start_of_day(state: SchState, schedule: dict, model):
     model.Minimize(z)
 
 
-def init(state: SchState, plausable, schedule: dict, model):
-    print(f"for state: {state} \n model: {model} were build")
-    print(f"in form of schedule: {schedule}")
+def init(state: SchState, schedule: dict, model):
+    print(f"for state: {state} \n  model were build")
+
 
 
 def dummy_plausable(r, s, l, g, t):

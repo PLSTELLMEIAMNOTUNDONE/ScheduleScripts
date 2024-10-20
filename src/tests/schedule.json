@@ -1,0 +1,41 @@
+{
+  "sch_state": {
+    "sch_state": {
+      "sch_state": "<not serializable>",
+      "subjects_names": {
+        "0": "s1",
+        "1": "s2",
+        "-1": "no subject"
+      },
+      "groups_names": {
+        "0": "g1",
+        "1": "g2",
+        "-1": "no group"
+      },
+      "rooms_names": {
+        "0": "lr1",
+        "1": "lr2",
+        "-1": "no room"
+      },
+      "teacher_names": {
+        "0": "t1",
+        "1": "t2",
+        "2": "t3",
+        "3": "t4",
+        "4": "t5",
+        "5": "t6",
+        "-1": "no teacher"
+      },
+      "days": {
+        "1": "<not serializable>",
+        "2": "<not serializable>",
+        "3": "<not serializable>",
+        "4": "<not serializable>",
+        "5": "<not serializable>",
+        "6": "<not serializable>"
+      },
+      "days_num": 6,
+      "slots_num": 5
+    }
+  }
+}

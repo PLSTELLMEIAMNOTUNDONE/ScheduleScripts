@@ -3,24 +3,10 @@ from typing import Callable
 from src.python.schedule.config import *
 
 from src.python.schedule.schedule_state import *
+from src.python.common.json.schedule_parser import map_json_to_schedule
 
 
-def get_sch_init_state(
-        lecture_rooms: int,
-        casual_rooms: int,
-        teachers: int,
-        subjects: int,
-        lessons: int,
-        casual_groups: int,
-        lecture_groups: int,
-        subject_to_group: list[list[int]],
-        sub_groups: dict[int, list[int]],
-        possible: Callable[[int, int, int, int, int], bool]) -> SchState:
-    return SchState(lecture_rooms, casual_rooms, teachers, subjects, lessons, casual_groups, lecture_groups,
-                    subject_to_group, sub_groups, possible)
-
-
-def init_sch():
+def init_sch() -> SchState:
     if default_init_enable:
         return get_sch_init_state(default_lecture_rooms,
                                   default_casual_rooms,
@@ -47,11 +33,16 @@ def init_sch():
                                   possible_test
                                   )
 
+    elif test_via_json_init_enable:
+        with open("resources/test_sch.json") as f:
+            return map_json_to_schedule(f)
+
     raise Exception("no init state setting")
 
 
 def possible_test(g, t, r, s, l):
     return t == g
+
 
 if __name__ == "__main__":
     init_sch()

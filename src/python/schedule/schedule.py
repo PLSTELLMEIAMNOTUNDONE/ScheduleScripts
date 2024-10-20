@@ -1,34 +1,39 @@
+from src.python.schedule.execution_configurator import full_instance, fast_instance
 from src.python.schedule.post_procces.Schedule import Schedule
 from src.python.model_operation import *
+from src.python.common.records.recorder import recorder
+from src.python.schedule.config import default_time_out, fallback_enable
+
+recorder = recorder("schedule_state", True)
 
 
-def sch(state: SchState):
+def calculate_sch_with_cp(state: SchState, executor_config):
+    recorder.record("start process")
     schedule = {}
     model = cp_model.CpModel()
-    build(state=state, model=model, schedule=schedule, fun=init_model)(
-        at_most_one_group_for_time)(
-        at_most_one_room_for_time)(
-        at_most_one_teacher_for_time)(
-        one_teacher_for_group_and_subject)(
-        clustering)(
-        exact_amount_of_classes_for_group)(
-        clustering_for_t_v1, end=True
-    )
+    executor_config.configure(model, state, schedule)
 
     solver = cp_model.CpSolver()
 
     solver.parameters.enumerate_all_solutions = False
+    solver.parameters.max_time_in_seconds = default_time_out
     status = solver.Solve(model)
 
-    print(solver.SolutionInfo())
-    print(solver.ResponseStats())
-
+    recorder.record(solver.SolutionInfo())
+    recorder.record(solver.ResponseStats())
+    # timeout
+    if status == cp_model.UNKNOWN or status == cp_model.INFEASIBLE:
+        if not fallback_enable:
+            raise Exception("TIMEOUT")
+        recorder.record("scheduling fallback")
+        executor_config.exclude_last_option()
+        return recorder.record_with_time(lambda: calculate_sch_with_cp(state, executor_config))
     if status == cp_model.FEASIBLE:
-        print("ok")
+        recorder.record("finish initial cp scheduling")
     if status == cp_model.INFEASIBLE:
         raise Exception("INFEASIBLE state")
 
-    print(status)
+    recorder.record(status)
     result = {}
     sss = 0
     for k, v in schedule.items():
@@ -38,9 +43,8 @@ def sch(state: SchState):
             result[k] = 1
             sss += 1
 
-    # print(sss)
-
-    # fix!
+    recorder.record("итоговая конфигурация расписания: " + str(executor_config.flags))
+    print_sch(state, result)
 
     return Schedule(result,
                     state,
@@ -50,7 +54,20 @@ def sch(state: SchState):
                     state.groupsNames,
                     state.roomsNames,
                     state.teachersNames
-                    ), errors(state, result), errors_for_teachres_v1(state, result), result
+                    ), \
+        errors(state, result), \
+        errors_for_teachres_v1(state, result), \
+        result
+
+
+def sch(state: SchState):
+    executor_config = full_instance()
+    return recorder.record_with_time(lambda: calculate_sch_with_cp(state, executor_config))
+
+
+def fast_sch(state: SchState):
+    executor_config = fast_instance()
+    return recorder.record_with_time(lambda: calculate_sch_with_cp(state, executor_config))
 
 
 # deprecated
@@ -70,7 +87,8 @@ def errors(state: SchState, schedule_inst):
                 if exist and start:
                     if last != l - 1:
                         for i in range(last + 1, l):
-                            print("день " + str(d + 1) + " пара " + str(i + 1) + " грyппа " + state.groupsNames[g])
+                            # !!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            # print("день " + str(d + 1) + " пара " + str(i + 1) + " грyппа " + state.groupsNames[g])
                             e += 1
                     last = l
                     continue
@@ -78,7 +96,7 @@ def errors(state: SchState, schedule_inst):
                     start = True
                     last = l
 
-    print("errors for groups = " + str(e))
+    recorder.record("errors for groups = " + str(e))
     return e
 
 
@@ -98,8 +116,9 @@ def errors_for_teachres_v1(state: SchState, schedule_inst):
                 if exist and start:
                     if last != l - 1:
                         for i in range(last + 1, l):
-                            print(
-                                "день " + str(d + 1) + " пара " + str(i + 1) + " преподаватель " + state.teachersNames[t])
+                            recorder.record(
+                                "день " + str(d + 1) + " пара " + str(i + 1) + " преподаватель " + state.teachersNames[
+                                    t])
                             e += 1
                     last = l
                     continue
@@ -107,18 +126,24 @@ def errors_for_teachres_v1(state: SchState, schedule_inst):
                     start = True
                     last = l
 
-    print("errors for teachers = " + str(e))
+    recorder.record("errors for teachers = " + str(e))
     return e
 
 
 # deprecated
 def print_sch(state: SchState, result):
+    recorder.record(readable_sch_state(state, result))
+
+
+def readable_sch_state(state: SchState, result) -> str:
     ans = {}
     for l in state.all_lessons:
         ans[l] = "расписания на день " + str((l // 5) + 1) + " пара № " + str((l % 5) + 1) + "\n"
     for k, v in result.items():
-        r, s, l, g = k
+        r, s, l, g, t = k
         ans[l] += state.subjectsNames[s] + " проходит y грyппы " + state.groupsNames[g] + " в кабинете " + \
                   state.roomsNames[r] + "\n"
+    ans_str = ""
     for l in state.all_lessons:
-        print(ans[l])
+        ans_str += ans[l]
+    return ans_str

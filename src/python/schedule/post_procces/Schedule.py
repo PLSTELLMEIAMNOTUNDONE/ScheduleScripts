@@ -1,15 +1,14 @@
 import sys
 from typing import Dict
 
-from common.common import default_adder
+from src.python.common.common import default_adder
 from src.python.schedule.schedule_state import SchState
+from src.python.common.records.recorder import recorder
 
 # Increase the recursion depth to 2000
 sys.setrecursionlimit(20000)
 i = 0
-import logging
-
-logging.basicConfig(level=logging.INFO, filename="", filemode="w")
+recorder = recorder("Schedule", True)
 
 
 class Slot:
@@ -175,7 +174,11 @@ class Schedule:
         self[day][slot].add_teacher(g, s, t)
 
     def print_sch(self):
+        recorder.record(self.readable_schedule())
+
+    def readable_schedule(self) -> str:
         ans = {}
+        ans_str = ""
         errors = 0
         for day in range(self.days_num):
             for slot in range(self.slots_num):
@@ -189,11 +192,12 @@ class Schedule:
                 ans[l] += msg
                 errors += conflicts
 
-                print(ans[l])
-        print("расписание содержит " + str(errors) + " конфликтов")
+                ans_str += ans[l]
+        ans_str += ("расписание содержит " + str(errors) + " конфликтов")
+        return ans_str
 
     def windows_for_teachers(self):
-
+        recorder.record("Найденные окна у учителей")
         cons = {}
         ans = 0
         last_in_day = {}
@@ -210,40 +214,44 @@ class Schedule:
                     cons[(t, l)] += 1
                     if last_in_day[d][t] != -1 and last_in_day[d][t] < p - 1:
                         ans += 1
-                        print("Окно у преподавателя " +
-                              self.teacher_names[t] +
-                              " в день " + str(d) +
-                              " пара номер " +
-                              str(p) + " номер предыдущей пары " +
-                              str(last_in_day[d][t]))
+                        recorder.record("Окно у преподавателя " +
+                                        self.teacher_names[t] +
+                                        ", в день " + str(d) +
+                                        ", пара номер " +
+                                        str(p) + ", номер предыдущей пары " +
+                                        str(last_in_day[d][t]))
                     last_in_day[d][t] = p
 
         return ans
 
     def windows_for_groups(self):
-
+        recorder.record("Найденные окна у групп")
         cons = {}
         ans = 0
         last_in_day = {}
         for d in self.days.keys():
-            last_in_day[d] = [-1 for _ in self.sch_state.all_groups]
+            last_in_day[d] = [-1 for _ in range(self.sch_state.casual_groups)]
 
         for d, day in self.days.items():
             for p, slot in day.slots.items():
                 for entity in slot.state:
                     g, r, s, t = entity
-                    l = slot.raw_num
-                    if (g, l) not in cons.keys():
-                        cons[(g, l)] = 0
-                    cons[(g, l)] += 1
-                    if last_in_day[d][g] != -1 and last_in_day[d][g] < p - 1:
-                        ans += 1
-                        print("Окно у группы " +
-                              self.groups_names[g] +
-                              " в день " + str(d) +
-                              " пара номер " +
-                              str(p) + " номер предыдущей пары " +
-                              str(last_in_day[d][g]))
-                    last_in_day[d][g] = p
+                    g_unity = self.sch_state.united_groups[g]
+                    for gu in g_unity:
+                        if gu >= self.sch_state.casual_groups:
+                            continue
+                        l = slot.raw_num
+                        if (gu, l) not in cons.keys():
+                            cons[(gu, l)] = 0
+                        cons[(gu, l)] += 1
+                        if last_in_day[d][gu] != -1 and last_in_day[d][gu] < p - 1:
+                            ans += 1
+                            recorder.record("Окно у группы " +
+                                            self.groups_names[gu] +
+                                            ", в день " + str(d) +
+                                            ", пара номер " +
+                                            str(p) + ", номер предыдущей пары " +
+                                            str(last_in_day[d][gu]))
+                        last_in_day[d][gu] = p
 
         return ans
