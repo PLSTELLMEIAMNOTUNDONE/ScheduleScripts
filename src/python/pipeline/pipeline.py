@@ -18,9 +18,7 @@ def proccess(sch_states: list[SchState]):
         schedule, e, e2, schedule_res = recorder.record_with_time(lambda: sch(sch_state))
         recorder.record("Завершился начальный этап")
         sa_state = SA_for_teachers(schedule=schedule,
-                                   energy_func=energy,
-                                   temp_func=temperature,
-                                   transition_func=transition)
+                                   energy_func=energy)
 
         recorder.record_with_time(lambda: sa_state.construct_schedule(schedule=schedule))
         end = time.time()
