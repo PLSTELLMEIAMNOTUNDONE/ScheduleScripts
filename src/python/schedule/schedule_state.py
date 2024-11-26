@@ -1,82 +1,74 @@
 from typing import Tuple, Callable
 
+from model.groups import Group
+from model.rooms import Room
+from model.subjects import Subject
+from model.teachers import Teacher
+
 
 class SchState:
     def __init__(self,
-                 lecture_rooms,
-                 casual_rooms,
-                 teachers,
-                 subjects,
-                 lessons,
-                 casual_groups,
-                 lecture_groups,
-                 subject_to_group,
-                 sub_groups,
+                 teachers: dict[int, Teacher],
+                 groups: dict[int, Group],
+                 rooms: dict[int, Room],
+                 subjects: dict[int, Subject],
+                 lessons: int,
                  possible):
-        self.possible = possible
-        self.unity = {}
-        self.united_groups = {}
-        for g in range(casual_groups + len(sub_groups)):
-            self.unity[g] = [g]
-            self.united_groups[g] = [g]
-        for ug_i in range(len(sub_groups)):
-            ug = ug_i + casual_groups
-            for g in sub_groups[ug_i]:
-                self.unity[g].append(ug)
-                self.united_groups[ug].append(g)
-
-        self.lecture_rooms = lecture_rooms
-        self.casual_rooms = casual_rooms
         self.teachers = teachers
+        self.groups = groups
+        self.rooms = rooms
         self.subjects = subjects
         self.lessons = lessons
-        self.casual_groups = casual_groups
-        self.lecture_groups = len(sub_groups)
-        self.subject_to_group = subject_to_group
-        self.sub_groups = sub_groups
-        self.lecture_rooms_range = range(casual_rooms, lecture_rooms + casual_rooms)
-        self.casual_rooms_range = range(casual_rooms)
-        self.all_subjects = range(subjects)
-        self.all_lessons = range(lessons)
-        self.lecture_groups_range = range(casual_groups, self.lecture_groups + casual_groups)
-        self.casual_groups_range = range(casual_groups)
-        self.all_groups = range(self.lecture_groups + casual_groups)
-        self.all_rooms = range(lecture_rooms + casual_rooms)
-        self.all_teachers = range(teachers)
-        self.roomsNames = {}
-        self.subjectsNames = {}
-        self.lessonsNames = {}
-        self.groupsNames = {}
-        self.teachersNames = {}
+        self.all_teachers = range(len(self.teachers))
+        self.all_groups = range(len(self.groups))
+        self.all_rooms = range(len(self.rooms))
+        self.all_subjects = range(len(self.subjects))
+        self.all_lessons = range(self.lessons)
+        self.real_groups = []
+        for group in groups.values():
+            if group.is_real:
+                self.real_groups.append(group.num)
+        self.unity = {}
+        self.united_groups = {}
+        self.sub_groups = {}
+        for g in groups.values():
+            if not g.is_real:
+                self.sub_groups[g.num] = g.sub_groups
+        for g in groups.values():
+            self.unity[g.num] = [g.num]
+            self.united_groups[g.num] = [g.num]
+        for pair in self.sub_groups.items():
+            ug_i, ug = pair
+            for g in ug:
+                self.unity[g].append(ug_i)
+                self.united_groups[ug_i].append(g)
 
-        for r in self.casual_rooms_range:
-            self.roomsNames[r] = "cr" + str(r + 1)
-        for r in self.lecture_rooms_range:
-            self.roomsNames[r] = "lr" + str(r + 1)
-        for s in self.all_subjects:
-            self.subjectsNames[s] = "s" + str(s + 1)
-        for l in self.all_lessons:
-            self.lessonsNames[l] = "l" + str(l + 1)
-        for g in self.casual_groups_range:
-            self.groupsNames[g] = "g" + str(g + 1)
-        for ug_i in range(len(sub_groups)):
-            self.groupsNames[casual_groups + ug_i] = str([self.groupsNames[g] for g in sub_groups[ug_i]])
-        for t in self.all_teachers:
-            self.teachersNames[t] = "t" + str(t + 1)
 
-        self.groupsNames[-1] = "no group"
-        self.roomsNames[-1] = "no room"
-        self.subjectsNames[-1] = "no subject"
-        self.teachersNames[-1] = "no teacher"
 
         self.subject_group_map = {}
+        for g in groups.values():
+            for s in g.subjects:
+                self.subject_group_map[(s.num, g.num)] = s.amount
 
-        for s in self.all_subjects:
-            for g in self.all_groups:
-                if subject_to_group[s][g] != 0:
-                    self.subject_group_map[(s, g)] = subject_to_group[s][g]
 
-    # !!!!!!!!!!!!!!!!!!!!!
+        def default_possible(g, t, r, s, l):
+            group = self.groups[g]
+            subject = self.subjects[s]
+            room = self.rooms[r]
+            if not (s, g) in self.subject_group_map.keys():
+                return False
+            if room.capacity < group.volume:
+                return False
+            for requirement in subject.requirements:
+                if not requirement in room.features:
+                    return False
+            return possible(g, t, r, s, l)
+
+        self.possible = default_possible
+
+    def __str__(self):
+        return f"rooms: {self.rooms} \n groups: {self.groups} \n real_groups:  {self.real_groups}  \n sub_groups: {self.sub_groups} \n unity: {self.unity} \n teachers: {self.teachers} \n subjects: {self.subjects} \n subject_group_map: {self.subject_group_map}"
+
     def sg_possible(self, sg: Tuple[int, int]):
         return True
 
@@ -86,15 +78,10 @@ def dummy(g, t, r, s, l):
 
 
 def get_sch_init_state(
-        lecture_rooms: int,
-        casual_rooms: int,
-        teachers: int,
-        subjects: int,
+        teachers: dict[int, Teacher],
+        groups: dict[int, Group],
+        rooms: dict[int, Room],
+        subjects: dict[int, Subject],
         lessons: int,
-        casual_groups: int,
-        lecture_groups: int,
-        subject_to_group: list[list[int]],
-        sub_groups: dict[int, list[int]],
         possible: Callable[[int, int, int, int, int], bool]) -> SchState:
-    return SchState(lecture_rooms, casual_rooms, teachers, subjects, lessons, casual_groups, lecture_groups,
-                    subject_to_group, sub_groups, possible)
+    return SchState(teachers, groups, rooms, subjects, lessons, possible)

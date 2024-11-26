@@ -6,8 +6,8 @@
         <entryData>
           <resourceRoots>
             <path value="file://$PROJECT_DIR$/src/tests/resources" />
-            <path value="file://$PROJECT_DIR$/src/python/resources" />
-            <path value="file://$PROJECT_DIR$/src/records" />
+            <path value="file://$PROJECT_DIR$/src/python/pipeline/resources" />
+            <path value="file://$PROJECT_DIR$/src/python/common/records/log" />
           </resourceRoots>
         </entryData>
       </entry>

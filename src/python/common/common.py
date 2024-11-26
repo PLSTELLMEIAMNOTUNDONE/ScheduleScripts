@@ -13,7 +13,19 @@ def default_adder(mapp: dict, default):
 
     return add
 
+def with_cache(func: callable(int)) -> callable(int):
+    cache = {}
+    def func_with_cache(x: int):
+        nonlocal cache
+        if x in cache:
+            return cache[x]
+        cache[x] = func(x)
+        return cache[x]
+    return func_with_cache
 
+
+
+# not working
 class Logger:
     def __init__(self):
         logging.basicConfig(level=logging.INFO, filename="py_log.log", filemode="a")

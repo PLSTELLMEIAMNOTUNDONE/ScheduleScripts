@@ -70,8 +70,8 @@ class AnnealingState:
 
 def make_state(state: SchState):
     state_map = {}
-    unused_teachers = [t for t in range(state.teachers)]
-    teachers_count = [0 for _ in range(state.teachers)]
+    unused_teachers = [t for t in state.all_teachers]
+    teachers_count = [0 for _ in state.all_teachers]
     return AnnealingState(state_map, unused_teachers, teachers_count)
 
 
@@ -85,6 +85,6 @@ def init_state(sch: Schedule):
                 if (s, g) in state.state_map.keys():
                     continue
                 if t == -1:
-                    t = randrange(sch_state.teachers)
+                    t = randrange(sch_state.all_teachers)
                 state.add(s, g, t)
     return state

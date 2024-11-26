@@ -25,7 +25,7 @@ def init_model(state: SchState, schedule: dict, model):
                     for t in state.all_teachers:
                         if state.possible(g, t, r, s, l):
                             schedule[(r, s, l, g, t)] = model.NewBoolVar(
-                                f"sch_{state.roomsNames[r]}_{state.subjectsNames[s]}_{state.lessonsNames[l]}_{state.groupsNames[g]}_{state.teachersNames[t]}")
+                                f"sch_{state.rooms[r].name}_{state.subjects[s].name}_{l}_{state.groups[g].name}_{state.teachers[t].name}")
 
 
 def at_most_one_room_for_time(state: SchState, schedule: dict, model):
@@ -63,11 +63,13 @@ def at_most_one_teacher_for_time(state: SchState, schedule: dict, model):
 def exact_amount_of_classes_for_group(state: SchState, schedule: dict, model):
     for s in state.all_subjects:
         for g in state.all_groups:
+            if not (s, g) in state.subject_group_map.keys():
+                continue
             model.Add(sum(schedule[(r, s, l, g, t)]
                           for r in state.all_rooms
                           for l in state.all_lessons
                           for t in state.all_teachers
-                          if state.possible(g, t, r, s, l)) == state.subject_to_group[s][g]
+                          if state.possible(g, t, r, s, l)) == state.subjects[s].amount
                       )
 
 
@@ -76,11 +78,13 @@ def one_teacher_for_group_and_subject(state: SchState, schedule: dict, model):
     for s in state.all_subjects:
         for g in state.all_groups:
             for t in state.all_teachers:
-                indix[(s, g, t)] = model.NewBoolVar(f"ind_{[state.subjectsNames[s]]}_{state.groupsNames[g]}")
+                if not (s, g) in state.subject_group_map.keys():
+                    continue
+                indix[(s, g, t)] = model.NewBoolVar(f"ind_{[state.subjects[s].name]}_{state.groups[g].name}")
                 model.Add(sum(schedule[(r, s, l, g, t)]
                               for r in state.all_rooms
                               for l in state.all_lessons
-                              if state.possible(g, t, r, s, l)) == state.subject_to_group[s][g]
+                              if state.possible(g, t, r, s, l)) == state.subjects[s].amount
                           ).OnlyEnforceIf(indix[(s, g, t)])
 
                 model.Add(sum(schedule[(r, s, l, g, t)]
@@ -93,11 +97,12 @@ def one_teacher_for_group_and_subject(state: SchState, schedule: dict, model):
 def clustering(state: SchState, schedule: dict, model):
     indix = {}
     for l in state.all_lessons:
-        for g in state.casual_groups_range:
-            if l % 5 <= 1:
+        for pair in state.groups.items():
+            g, group = pair
+            if not group.is_real or l % 5 <= 1:
                 continue
             d = l // 5
-            indix[(l, g)] = model.NewBoolVar(f"ind_{[l]}_{state.groupsNames[g]}")
+            indix[(l, g)] = model.NewBoolVar(f"ind_{[l]}_{state.groups[g].name}")
             model.AddMaxEquality(indix[(l, g)], [schedule[(r, s, ll, ug, t)]
                                                  for ll in range(d * 5, l - 1)
                                                  for ug in state.unity[g]
@@ -127,7 +132,7 @@ def clustering_for_t_v1(state: SchState, schedule: dict, model):
             if l % 5 <= 1:
                 continue
             d = l // 5
-            indix[(l, t)] = model.NewBoolVar(f"ind_{[l]}_{state.teachersNames[t]}")
+            indix[(l, t)] = model.NewBoolVar(f"ind_{[l]}_{state.teachers[t].name}")
             model.AddMaxEquality(indix[(l, t)], [schedule[(r, s, ll, g, t)]
                                                  for ll in range(d * 5, l - 1)
                                                  for g in state.all_groups
@@ -161,7 +166,6 @@ def prioritize_start_of_day(state: SchState, schedule: dict, model):
 
 def init(state: SchState, schedule: dict, model):
     print(f"for state: {state} \n  model were build")
-
 
 
 def dummy_plausable(r, s, l, g, t):

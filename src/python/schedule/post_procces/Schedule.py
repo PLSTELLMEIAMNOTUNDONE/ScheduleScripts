@@ -1,6 +1,7 @@
 import sys
 from typing import Dict
 
+from common.common import with_cache
 from src.python.common.common import default_adder
 from src.python.schedule.schedule_state import SchState
 from src.python.common.records.recorder import recorder
@@ -31,6 +32,10 @@ class Slot:
         self.append_rooms = default_adder(rooms, 0)
         self.append_teachers = default_adder(teachers, 0)
         self.append_subjects = default_adder(subjects, 0)
+        self.get_for_group = with_cache(self.get_for_group_imp)
+        self.get_for_rooms = with_cache(self.get_for_room_imp)
+        self.get_for_teachers = with_cache(self.get_for_teacher_imp)
+        self.get_for_subjects = with_cache(self.get_for_subject_imp)
         self.state = []
         for g in groups.keys():
             for r in rooms.keys():
@@ -98,6 +103,18 @@ class Slot:
                 conflicts += self.teachers[t] - 1
         return msg, conflicts
 
+    def get_for_group_imp(self, g: int):
+        return list(filter(lambda x: x[0] == g, self.state))
+
+    def get_for_room_imp(self, r: int):
+        return list(filter(lambda x: x[1] == r, self.state))
+
+    def get_for_subject_imp(self, s: int):
+        return list(filter(lambda x: x[2] == s, self.state))
+
+    def get_for_teacher_imp(self, t: int):
+        return list(filter(lambda x: x[3] == t, self.state))
+
 
 def empty_slot(num, raw_num):
     return Slot(num, raw_num, {}, {}, {}, {}, True)
@@ -134,16 +151,8 @@ class Schedule:
                  sch_state: SchState,
                  days_num: int,
                  slots_num: int,
-                 subjects_names: Dict[int, str],
-                 groups_names: Dict[int, str],
-                 rooms_names: Dict[int, str],
-                 teacher_names: Dict[int, str]
                  ):
         self.sch_state = sch_state
-        self.subjects_names = subjects_names
-        self.groups_names = groups_names
-        self.rooms_names = rooms_names
-        self.teacher_names = teacher_names
         self.days = {}
         self.days_num = days_num
         self.slots_num = slots_num
@@ -157,6 +166,13 @@ class Schedule:
             r, s, l, g, t = k
             day_num, slot_num = self.get_day_and_slot(l)
             self[day_num][slot_num].add_entity(g, r, s, t)
+
+        self.actions_by_name = {
+            "group": self.get_schedule_for_group,
+            "room": self.get_schedule_for_room,
+            "teacher": self.get_schedule_for_teacher,
+            "subject": self.get_schedule_for_subject
+        }
 
     def get_day_and_slot(self, l):
         return (l // self.slots_num) + 1, (l % self.slots_num) + 1
@@ -176,18 +192,58 @@ class Schedule:
     def print_sch(self):
         recorder.record(self.readable_schedule())
 
+    def get_schedule_for_group(self, g: int):
+        ans = {}
+        for day in self.days.values():
+            for slot in day.slots.values():
+                entity = slot.get_for_group(g)
+                if len(entity) > 0:
+                    ans[slot.raw_num] = entity
+        return ans
+
+    def get_schedule_for_room(self, r: int):
+        ans = {}
+        for day in self.days.values():
+            for slot in day.slots.values():
+                entity = slot.get_for_rooms(r)
+                if len(entity) > 0:
+                    ans[slot.raw_num] = entity
+        return ans
+
+    def get_schedule_for_teacher(self, t: int):
+        ans = {}
+        for day in self.days.values():
+            for slot in day.slots.values():
+                entity = slot.get_for_teachers(t)
+                if len(entity) > 0:
+                    ans[slot.raw_num] = entity
+        return ans
+
+    def get_schedule_for_subject(self, s: int):
+        ans = {}
+        for day in self.days.values():
+            for slot in day.slots.values():
+                entity = slot.get_for_subjects(s)
+                if len(entity) > 0:
+                    ans[slot.raw_num] = entity
+        return ans
+
     def readable_schedule(self) -> str:
         ans = {}
         ans_str = ""
+        delimiter = "\n---\n|\n|\n ---\n"
         errors = 0
         for day in range(self.days_num):
             for slot in range(self.slots_num):
                 l = self[day + 1][slot + 1].raw_num
-                ans[l] = "расписание на день " + str(day + 1) + " пара № " + str(slot + 1) + "\n"
+                ans[l] = delimiter + "расписание на день " + str(day + 1) + " пара № " + str(slot + 1) + "\n"
                 for entity in self[day + 1][slot + 1].state:
                     g, r, s, t = entity
-                    ans[l] += self.subjects_names[s] + " проходит y грyппы " + self.groups_names[g] + " в кабинете " + \
-                              self.rooms_names[r] + " у преподавателя " + self.teacher_names[t] + "\n"
+                    ans[l] += self.sch_state.subjects[s].name + " проходит y грyппы " + self.sch_state.groups[
+                        g].name + " в кабинете " + \
+                              self.sch_state.rooms[r].name + " у преподавателя " + self.sch_state.teachers[
+                                  t].name + "\n"
+                ans[l] += delimiter + " найденные конфликты "
                 msg, conflicts = self[day + 1][slot + 1].conflicts()
                 ans[l] += msg
                 errors += conflicts
@@ -202,7 +258,7 @@ class Schedule:
         ans = 0
         last_in_day = {}
         for d in self.days.keys():
-            last_in_day[d] = [-1 for _ in range(self.sch_state.teachers)]
+            last_in_day[d] = [-1 for _ in self.sch_state.all_teachers]
 
         for d, day in self.days.items():
             for p, slot in day.slots.items():
@@ -215,7 +271,7 @@ class Schedule:
                     if last_in_day[d][t] != -1 and last_in_day[d][t] < p - 1:
                         ans += 1
                         recorder.record("Окно у преподавателя " +
-                                        self.teacher_names[t] +
+                                        self.sch_state.teachers[t].name +
                                         ", в день " + str(d) +
                                         ", пара номер " +
                                         str(p) + ", номер предыдущей пары " +
@@ -230,7 +286,9 @@ class Schedule:
         ans = 0
         last_in_day = {}
         for d in self.days.keys():
-            last_in_day[d] = [-1 for _ in range(self.sch_state.casual_groups)]
+            last_in_day[d] = {}
+            for g_real in self.sch_state.real_groups:
+                last_in_day[d][g_real] = -1
 
         for d, day in self.days.items():
             for p, slot in day.slots.items():
@@ -238,7 +296,7 @@ class Schedule:
                     g, r, s, t = entity
                     g_unity = self.sch_state.united_groups[g]
                     for gu in g_unity:
-                        if gu >= self.sch_state.casual_groups:
+                        if not self.sch_state.groups[gu].is_real:
                             continue
                         l = slot.raw_num
                         if (gu, l) not in cons.keys():
@@ -247,7 +305,7 @@ class Schedule:
                         if last_in_day[d][gu] != -1 and last_in_day[d][gu] < p - 1:
                             ans += 1
                             recorder.record("Окно у группы " +
-                                            self.groups_names[gu] +
+                                            self.sch_state.groups[gu].name +
                                             ", в день " + str(d) +
                                             ", пара номер " +
                                             str(p) + ", номер предыдущей пары " +

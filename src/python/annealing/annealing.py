@@ -8,15 +8,50 @@ import time
 recorder = recorder("Annealing", True)
 
 
+def energy_template_for_at_most_one_check(count_windows: bool,
+                                          indexes: list[int],
+                                          index_for_entity):
+    def energy_imp(sa_state: AnnealingState,
+                   schedule: Schedule):
+        cons = {}
+        bad_coef_window = 10
+        bad_coef_same_day = 1000
+        ans = 0
+        last_in_day = {}
+        for d in schedule.days.keys():
+            last_in_day[d] = {}
+            for index in indexes:
+                last_in_day[d][index] = -1
+
+        for d, day in schedule.days.items():
+            for p, slot in day.slots.items():
+                for entity in slot.state:
+                    l = slot.raw_num
+                    index = index_for_entity(entity, sa_state)
+                    if (index, l) not in cons.keys():
+                        cons[(index, l)] = 0
+                    cons[(index, l)] += 1
+                    if cons[(index, l)] > 1:
+                        ans += bad_coef_same_day
+                    if last_in_day[d][index] != -1 and last_in_day[d][index] < p - 1 and count_windows:
+                        ans += bad_coef_window
+                    last_in_day[d][index] = p
+
+        return ans
+
+    return energy_imp
+
+
+# deprecated
 def energy(sa_state: AnnealingState,
            schedule: Schedule):
     cons = {}
     bad_coef_window = 10
-    bad_coef_same_day = 100
+    bad_coef_same_day = 1000
     ans = 0
     last_in_day = {}
     for d in schedule.days.keys():
-        last_in_day[d] = [-1 for _ in range(schedule.sch_state.teachers)]
+        last_in_day[d] = [-1 for _ in schedule.sch_state.all_teachers]
 
     for d, day in schedule.days.items():
         for p, slot in day.slots.items():
@@ -36,10 +71,16 @@ def energy(sa_state: AnnealingState,
     return ans
 
 
+def get_teacher_by_entity(entity, sa_state: AnnealingState):
+    g, r, s, _ = entity
+    t = sa_state.state_map[(s, g)]
+    return t
+
+
 def SA_for_teachers(schedule: Schedule,
                     energy_func,
                     eps=1e-1000,
-                    temp=10000):
+                    temp=1000000):
     sa_state = init_state(schedule)
     E = energy_func(sa_state, schedule)
     transition_func = get_transition_fun()
@@ -71,18 +112,3 @@ def SA_for_teachers(schedule: Schedule,
         recorder.record(f'step: {i}, enegry : {E}, temp : {temp}, time : {time.time() - start_time}')
     recorder.record(f'step: {i}, enegry : {best_E}, temp : {temp}')
     return best_state
-
-
-# deprecated
-def print_sch_w_teachers(sch_state: SchState, sa_state: AnnealingState, sch_result):
-    ans = {}
-    for l in sch_state.all_lessons:
-        ans[l] = "расписания на день " + str((l // 5) + 1) + " пара № " + str((l % 5) + 1) + "\n"
-    for k, v in sch_result.items():
-        r, s, l, g = k
-
-        ans[l] += sch_state.subjectsNames[s] + " проходит y грyппы " + sch_state.groupsNames[g] + " в кабинете " + \
-                  sch_state.roomsNames[r] + " ведет " + sch_state.teachersNames[sa_state.state_map[(s, g)]] + "\n"
-
-    for l in sch_state.all_lessons:
-        print(ans[l])

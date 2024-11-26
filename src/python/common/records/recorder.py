@@ -3,26 +3,39 @@ import time
 from typing import Callable
 
 cache = {}
+def session_id():
+    if "session_id" in cache:
+        return cache["session_id"]
+    n = 0
+    with open(r"C:\Users\lera\PycharmProjects\ScheduleScripts\src\python\common\records\id.txt", 'r') as f:
+        n = int(f.readline())
+    with open(r"C:\Users\lera\PycharmProjects\ScheduleScripts\src\python\common\records\id.txt", 'w') as f:
+        f.write(str(n + 1))
+
+    cache["session_id"] = n
+    return n
 
 
 def recorder(domain: str, flag: bool):
+
     if domain in cache:
         return cache[domain]
-    recorder_inst = Recorder(domain, flag)
+    recorder_inst = Recorder(domain, flag, session_id())
     cache[domain] = recorder_inst
     return recorder_inst
 
 
 class Recorder:
 
-    def __init__(self, file_domain: str, records_enable: bool):
-        self.default_file_name = file_domain + "_record_" + str(datetime.datetime.now()).replace(" ", "_") + ".txt"
+    def __init__(self, file_domain: str, records_enable: bool, id: int):
+        self.default_file_name = file_domain + "_record_" + str(id) + ".txt"
         self.records_enable = records_enable
 
     def record(self, msg):
         if not self.records_enable:
             return
-        with open("/Users/volkovk2003/myself/app/src/records/" + self.default_file_name, "a+") as f:
+        with open(r"C:\Users\lera\PycharmProjects\ScheduleScripts\src\python\common\records\log\\" + self.default_file_name, "a+"
+                  ,encoding="utf-8") as f:
             f.write(str(msg) + "\n")
 
     def with_record(self, start_msg: str, end_msg: str, func: Callable):
