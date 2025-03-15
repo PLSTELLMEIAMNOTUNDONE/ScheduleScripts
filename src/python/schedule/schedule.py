@@ -1,8 +1,10 @@
+from ortools.sat.python import cp_model
+
+from src.python.common.records.recorder import recorder
+from src.python.model_operation import *
+from src.python.schedule.config import default_time_out, fallback_enable
 from src.python.schedule.execution_configurator import full_instance, fast_instance
 from src.python.schedule.post_procces.Schedule import Schedule
-from src.python.model_operation import *
-from src.python.common.records.recorder import recorder
-from src.python.schedule.config import default_time_out, fallback_enable
 
 recorder = recorder("schedule_state", True)
 
@@ -68,7 +70,7 @@ def fast_sch(state: SchState):
 def print_sch(state: SchState, result):
     recorder.record(readable_sch_state(state, result))
 
-
+# deprecated
 def readable_sch_state(state: SchState, result) -> str:
     ans = {}
     for l in state.all_lessons:

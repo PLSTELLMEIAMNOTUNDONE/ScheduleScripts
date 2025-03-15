@@ -1,10 +1,11 @@
 import sys
-from typing import Dict
+from typing import Dict, Callable
 
-from common.common import with_cache
+from model.NameAware import NameAware
+from src.python.common.common import with_cache
 from src.python.common.common import default_adder
-from src.python.schedule.schedule_state import SchState
 from src.python.common.records.recorder import recorder
+from src.python.schedule.schedule_state import SchState
 
 # Increase the recursion depth to 2000
 sys.setrecursionlimit(20000)
@@ -43,6 +44,7 @@ class Slot:
                     for t in teachers.keys():
                         self.state.append((g, r, s, t))
 
+    # unstable
     def add_entity(self, g=-2, r=-2, s=-2, t=-2, value=1):
         # if g in self.groups:
         #     raise Exception
@@ -145,14 +147,12 @@ class Day:
         self._slots = value
 
 
-class Schedule:
+class MutableSchedule:
     def __init__(self,
-                 schedule_info,
-                 sch_state: SchState,
                  days_num: int,
                  slots_num: int,
+                 schedule_info=None
                  ):
-        self.sch_state = sch_state
         self.days = {}
         self.days_num = days_num
         self.slots_num = slots_num
@@ -160,12 +160,6 @@ class Schedule:
             self.days[d + 1] = Day({})
             for slot_num in range(slots_num):
                 self.days[d + 1][slot_num + 1] = empty_slot(slot_num + 1, slot_num + (d * days_num))
-        for k, v in schedule_info.items():
-            if v == 0:
-                continue
-            r, s, l, g, t = k
-            day_num, slot_num = self.get_day_and_slot(l)
-            self[day_num][slot_num].add_entity(g, r, s, t)
 
         self.actions_by_name = {
             "group": self.get_schedule_for_group,
@@ -173,6 +167,17 @@ class Schedule:
             "teacher": self.get_schedule_for_teacher,
             "subject": self.get_schedule_for_subject
         }
+
+        if schedule_info is not None:
+            self.init_by_map(schedule_info)
+
+    def init_by_map(self, schedule_info):
+        for k, v in schedule_info.items():
+            if v == 0:
+                continue
+            r, s, l, g, t = k
+            day_num, slot_num = self.get_day_and_slot(l)
+            self[day_num][slot_num].add_entity(g, r, s, t)
 
     def get_day_and_slot(self, l):
         return (l // self.slots_num) + 1, (l % self.slots_num) + 1
@@ -188,9 +193,6 @@ class Schedule:
             return
         day, slot = self.get_day_and_slot(l)
         self[day][slot].add_teacher(g, s, t)
-
-    def print_sch(self):
-        recorder.record(self.readable_schedule())
 
     def get_schedule_for_group(self, g: int):
         ans = {}
@@ -228,6 +230,12 @@ class Schedule:
                     ans[slot.raw_num] = entity
         return ans
 
+
+class Schedule(MutableSchedule):
+    def __init__(self, schedule_info, sch_state: SchState, days_num: int, slots_num: int):
+        super().__init__(days_num, slots_num, schedule_info)
+        self.sch_state = sch_state
+
     def readable_schedule(self) -> str:
         ans = {}
         ans_str = ""
@@ -252,64 +260,75 @@ class Schedule:
         ans_str += ("расписание содержит " + str(errors) + " конфликтов")
         return ans_str
 
-    def windows_for_teachers(self):
-        recorder.record("Найденные окна у учителей")
-        cons = {}
-        ans = 0
-        last_in_day = {}
-        for d in self.days.keys():
-            last_in_day[d] = [-1 for _ in self.sch_state.all_teachers]
-
-        for d, day in self.days.items():
-            for p, slot in day.slots.items():
-                for entity in slot.state:
-                    g, r, s, t = entity
-                    l = slot.raw_num
-                    if (t, l) not in cons.keys():
-                        cons[(t, l)] = 0
-                    cons[(t, l)] += 1
-                    if last_in_day[d][t] != -1 and last_in_day[d][t] < p - 1:
-                        ans += 1
-                        recorder.record("Окно у преподавателя " +
-                                        self.sch_state.teachers[t].name +
-                                        ", в день " + str(d) +
-                                        ", пара номер " +
-                                        str(p) + ", номер предыдущей пары " +
-                                        str(last_in_day[d][t]))
-                    last_in_day[d][t] = p
-
-        return ans
-
-    def windows_for_groups(self):
-        recorder.record("Найденные окна у групп")
-        cons = {}
+    # g, r, s, t - tuple order
+    def _temp_for_windows(self, obj_dict: dict[int, NameAware], index: int, exclude: Callable[[int], bool]=lambda _: True):
         ans = 0
         last_in_day = {}
         for d in self.days.keys():
             last_in_day[d] = {}
-            for g_real in self.sch_state.real_groups:
-                last_in_day[d][g_real] = -1
+            for obj in obj_dict.keys():
+                last_in_day[d][obj] = -1
 
         for d, day in self.days.items():
             for p, slot in day.slots.items():
                 for entity in slot.state:
-                    g, r, s, t = entity
-                    g_unity = self.sch_state.united_groups[g]
-                    for gu in g_unity:
-                        if not self.sch_state.groups[gu].is_real:
-                            continue
-                        l = slot.raw_num
-                        if (gu, l) not in cons.keys():
-                            cons[(gu, l)] = 0
-                        cons[(gu, l)] += 1
-                        if last_in_day[d][gu] != -1 and last_in_day[d][gu] < p - 1:
-                            ans += 1
-                            recorder.record("Окно у группы " +
-                                            self.sch_state.groups[gu].name +
-                                            ", в день " + str(d) +
-                                            ", пара номер " +
-                                            str(p) + ", номер предыдущей пары " +
-                                            str(last_in_day[d][gu]))
-                        last_in_day[d][gu] = p
+                    obj = entity[index]
+                    # TODO normal way to exclude stuff of cache idk
+                    if exclude(obj):
+                        continue
+                    if last_in_day[d][obj] != -1 and last_in_day[d][obj] < p - 1:
+                        ans += 1
+                        recorder.record("Окна у" +
+                                        obj_dict[obj].name +
+                                        ", в день " + str(d) +
+                                        ", пара номер " +
+                                        str(p) + ", номер предыдущей пары " +
+                                        str(last_in_day[d][obj]))
+                    last_in_day[d][obj] = p
+        return ans
+
+    def _temp_for_conflict(self, obj_dict: dict[int, NameAware], index: int):
+        ans = 0
+        obj_in_timeslot: dict[int, set[int]] = {}
+        for d, day in self.days.items():
+            for p, slot in day.slots.items():
+                for entity in slot.state:
+                    timeslot = slot.raw_num
+                    obj = entity[index]
+                    if not timeslot in obj_in_timeslot.keys():
+                        obj_in_timeslot[timeslot] = set([])
+                    if obj in obj_in_timeslot[timeslot]:
+                        ans += 1
+                        if ans > 1:
+                            recorder.record("Конфликты в слот " + str(timeslot) + " у объекта + " + str(obj), True)
+                    obj_in_timeslot[timeslot].add(obj)
 
         return ans
+
+    def conflicts_in_teachers(self):
+        return self._temp_for_conflict(self.sch_state.teachers, 3)
+
+    def conflicts_in_rooms(self):
+        return self._temp_for_conflict(self.sch_state.rooms, 1)
+
+    def conflicts_in_groups(self):
+        return self._temp_for_conflict(self.sch_state.groups, 0)
+
+    def windows_for_teachers(self):
+        recorder.record("Найденные окна у учителей")
+        return self._temp_for_windows(self.sch_state.teachers, 3)
+
+    def windows_for_groups(self):
+        recorder.record("Найденные окна у групп")
+        return self._temp_for_windows(self.sch_state.groups, 0, lambda g: self.sch_state.groups[g].is_real)
+
+    def size(self):
+        ans = 0
+        for d, day in self.days.items():
+            for p, slot in day.slots.items():
+                for entity in slot.state:
+                    ans += 1
+        return ans
+
+    def make_record(self):
+        recorder.record(self.readable_schedule())

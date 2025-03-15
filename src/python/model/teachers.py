@@ -6,7 +6,7 @@ class Teacher(NameAware):
         super().__init__(name)
 
     def __str__(self):
-        return super().__str__() + "\n"
+        return super().__str__()
 
 
 

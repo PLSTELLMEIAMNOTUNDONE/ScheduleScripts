@@ -1,9 +1,9 @@
+import time
+
 from src.python.annealing.annealing_state import *
-from src.python.schedule.schedule_state import SchState
-from src.python.schedule.post_procces.Schedule import Schedule
 from src.python.annealing.util import *
 from src.python.common.records.recorder import recorder
-import time
+from src.python.schedule.post_procces.Schedule import Schedule
 
 recorder = recorder("Annealing", True)
 

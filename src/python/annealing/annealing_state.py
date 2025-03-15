@@ -1,9 +1,9 @@
-from typing import Tuple
+from copy import copy
+from random import choice, randrange
 
+from src.python.annealing.util import *
 from src.python.schedule.post_procces.Schedule import Schedule
 from src.python.schedule.schedule_state import SchState
-from src.python.annealing.util import *
-from copy import copy
 
 
 def get_possible_pair_group_subject(schedule: Schedule):
@@ -51,7 +51,7 @@ class AnnealingState:
                 self.teachers_count[new_t] += 1
                 self.teachers_count[old_t] -= 1
                 if self.teachers_count[old_t] == 0:
-                    self.unused_teachers.append(old_t)
+                    self.unused_teachers.add(old_t)
                 fix = self.get_fix(ug, ug, us, us, fix)
         return fix
 
@@ -70,8 +70,10 @@ class AnnealingState:
 
 def make_state(state: SchState):
     state_map = {}
-    unused_teachers = [t for t in state.all_teachers]
-    teachers_count = [0 for _ in state.all_teachers]
+    unused_teachers = state.all_teachers
+    teachers_count = {}
+    for t in unused_teachers:
+        teachers_count[t] = 0
     return AnnealingState(state_map, unused_teachers, teachers_count)
 
 
@@ -85,6 +87,6 @@ def init_state(sch: Schedule):
                 if (s, g) in state.state_map.keys():
                     continue
                 if t == -1:
-                    t = randrange(sch_state.all_teachers)
+                    t = choice(sch_state.all_teachers)
                 state.add(s, g, t)
     return state

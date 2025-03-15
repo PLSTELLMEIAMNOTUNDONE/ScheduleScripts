@@ -1,18 +1,22 @@
 import unittest
+
 from src.python.schedule.schedule import *
-from src.python.schedule.state_init import *
+from utils.utils import init_sch
 
 
 class TestSchedule(unittest.TestCase):
     def test_default_sch(self):
         state = init_sch()
 
-        schedule, e, e2, res = sch(state)
-        schedule.print_sch()
-        print(e)
-        print(e2)
-        print(schedule.windows_for_teachers())
-        print(schedule.windows_for_groups())
+        schedule, e = sch(state)
+        schedule.make_record()
+        self.assertEqual(schedule.windows_for_teachers(), 0)
+        self.assertEqual(schedule.windows_for_groups(), 0)
+        self.assertEqual(schedule.conflicts_in_rooms(), 0)
+        self.assertEqual(schedule.conflicts_in_groups(), 0)
+        self.assertEqual(schedule.conflicts_in_teachers(), 0)
+        self.assertEqual(schedule.size(), 5)
+        # print(schedule.windows_for_groups())
 
     def test_execution_configuration(self):
         config = full_instance()

@@ -1,12 +1,11 @@
+import time
+
 from annealing.annealing import energy_template_for_at_most_one_check, get_teacher_by_entity
 from schedule.config import fast_test_enable, stop_after_task
-from src.python.common.records.recorder import recorder
-from src.python.schedule.schedule_state import SchState
-from src.python.schedule.schedule import sch, fast_sch
 from src.python.annealing.annealing import SA_for_teachers
-from src.python.annealing.util import *
-from src.python.common.json.schedule_parser import map_json_to_schedule, map_spbu_data_to_schedule
-import time
+from src.python.common.records.recorder import recorder
+from src.python.schedule.schedule import sch, fast_sch
+from src.python.schedule.schedule_state import SchState
 
 recorder = recorder("Flow", True)
 
@@ -15,7 +14,7 @@ def execute_task(sch_state):
         return fast_sch(sch_state)
     return sch(sch_state)
 
-def proccess(sch_states: list[SchState]):
+def process(sch_states: list[SchState]):
     i = 0
     for sch_state in sch_states:
         i += 1
@@ -34,7 +33,7 @@ def proccess(sch_states: list[SchState]):
         recorder.record_with_time(lambda: sa_state.construct_schedule(schedule=schedule))
         end = time.time()
         recorder.record("Завершился второй этап")
-        schedule.print_sch()
+        schedule.make_record()
         schedule.windows_for_teachers()
         schedule.windows_for_groups()
 

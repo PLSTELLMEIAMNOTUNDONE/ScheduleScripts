@@ -1,7 +1,9 @@
-from src.python.model_operation import *
 from functools import cmp_to_key
+
 from ortools.sat.python.cp_model import CpModel
+
 from src.python.common.records.recorder import recorder
+from src.python.model_operation import *
 
 recorder = recorder("Flow", True)
 

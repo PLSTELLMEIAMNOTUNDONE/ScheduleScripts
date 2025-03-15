@@ -1,6 +1,7 @@
-import datetime
 import time
 from typing import Callable
+
+from schedule.config import default_sout, verbose
 
 cache = {}
 def session_id():
@@ -29,14 +30,20 @@ class Recorder:
 
     def __init__(self, file_domain: str, records_enable: bool, id: int):
         self.default_file_name = file_domain + "_record_" + str(id) + ".txt"
+        #deprecated
         self.records_enable = records_enable
+        self.default_out = default_sout
 
-    def record(self, msg):
+
+    def record(self, msg, simple_print: bool=default_sout):
         if not self.records_enable:
             return
-        with open(r"C:\Users\lera\PycharmProjects\ScheduleScripts\src\python\common\records\log\\" + self.default_file_name, "a+"
+        elif simple_print:
+            print(msg)
+        elif verbose:
+            with open(r"C:\Users\lera\PycharmProjects\ScheduleScripts\src\python\common\records\log\\" + self.default_file_name, "a+"
                   ,encoding="utf-8") as f:
-            f.write(str(msg) + "\n")
+                f.write(str(msg) + "\n")
 
     def with_record(self, start_msg: str, end_msg: str, func: Callable):
         self.record(start_msg)

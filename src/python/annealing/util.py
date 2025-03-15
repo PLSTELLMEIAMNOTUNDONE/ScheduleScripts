@@ -1,7 +1,5 @@
-from random import choice
-from random import randrange
-from random import random
 import math
+from random import random
 from typing import Callable
 
 from src.python.schedule.config import temperature_hyper_enable, temperature_linear_enable

@@ -11,4 +11,4 @@ class Room(NameAware):
             self.features = features
 
     def __str__(self):
-        return super().__str__() + f", capacity: {self.capacity}, features: {self.features}\n"
+        return super().__str__() + f", capacity: {self.capacity}, features: {self.features}"

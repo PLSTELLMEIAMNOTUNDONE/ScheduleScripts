@@ -11,4 +11,4 @@ class Subject(NameAware):
             self.requirements = requirements
 
     def __str__(self):
-        return super().__str__() + f", amount: {self.amount}, requirements: {self.requirements}\n"
+        return super().__str__() + f", amount: {self.amount}, requirements: {self.requirements}"

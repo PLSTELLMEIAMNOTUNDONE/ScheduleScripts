@@ -13,6 +13,6 @@ class Group(NameAware):
             raise Exception("Sub-groups must be none for real group")
 
     def __str__(self):
-        return super().__str__() + f" is_real: {self.is_real}, volume: {self.volume}, subjects: {self.subjects}, sub_groups: {self.sub_groups}\n"
+        return super().__str__()
 
 

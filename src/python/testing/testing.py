@@ -29,7 +29,7 @@ class TestingSampleGenerate:
 
 
 if __name__ == '__main__':
-    sample = TestingSampleGenerate(15).generate_test_sample()
+    sample = TestingSampleGenerate(30).generate_test_sample()
     process([sample])
 
 

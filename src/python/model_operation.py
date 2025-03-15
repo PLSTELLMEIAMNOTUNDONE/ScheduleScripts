@@ -1,13 +1,11 @@
 from typing import Callable
 
-from ortools.sat.python import cp_model
-
+from schedule.config import state_debug
 from src.python.schedule.schedule_state import SchState
 
 
 def build(state: SchState, schedule: dict, model, fun: Callable):
     fun(state, schedule, model)
-
     def continue_build(next_fun, end=False):
         if end:
             build(state, schedule, model, next_fun)
@@ -165,7 +163,8 @@ def prioritize_start_of_day(state: SchState, schedule: dict, model):
 
 
 def init(state: SchState, schedule: dict, model):
-    print(f"for state: {state} \n  model were build")
+    if state_debug:
+        print(f"for state: {state} \n  model were build")
 
 
 def dummy_plausable(r, s, l, g, t):

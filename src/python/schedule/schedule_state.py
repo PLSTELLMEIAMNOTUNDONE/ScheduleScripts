@@ -19,10 +19,10 @@ class SchState:
         self.rooms = rooms
         self.subjects = subjects
         self.lessons = lessons
-        self.all_teachers = range(len(self.teachers))
-        self.all_groups = range(len(self.groups))
-        self.all_rooms = range(len(self.rooms))
-        self.all_subjects = range(len(self.subjects))
+        self.all_teachers = set(self.teachers.keys())
+        self.all_groups = set(self.groups.keys())
+        self.all_rooms = set(self.rooms.keys())
+        self.all_subjects = set(self.subjects.keys())
         self.all_lessons = range(self.lessons)
         self.real_groups = []
         for group in groups.values():
@@ -43,13 +43,10 @@ class SchState:
                 self.unity[g].append(ug_i)
                 self.united_groups[ug_i].append(g)
 
-
-
         self.subject_group_map = {}
         for g in groups.values():
             for s in g.subjects:
                 self.subject_group_map[(s.num, g.num)] = s.amount
-
 
         def default_possible(g, t, r, s, l):
             group = self.groups[g]
@@ -64,6 +61,7 @@ class SchState:
                     return False
             return possible(g, t, r, s, l)
 
+        self.origin_possible = possible
         self.possible = default_possible
 
     def __str__(self):

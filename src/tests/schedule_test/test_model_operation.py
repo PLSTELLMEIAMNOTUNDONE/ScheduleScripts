@@ -1,7 +1,10 @@
 import unittest
-from src.python.schedule.state_init import *
-from src.python.model_operation import *
+
 from ortools.sat.python import cp_model
+
+from src.python.model_operation import *
+from src.python.schedule.state_init import *
+from utils.utils import init_sch
 
 
 def counted(f):
