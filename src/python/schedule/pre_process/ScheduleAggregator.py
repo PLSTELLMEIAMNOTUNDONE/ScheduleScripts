@@ -16,11 +16,11 @@ class IdManager:
             if not value.name in names.keys():
                 item_id = self.item_id + 1
                 self.item_id += 1
+                value.set_id(item_id)
+                items[item_id] = value
+                names[value.name] = item_id
             else:
                 item_id = names[value.name]
-            value.set_id(item_id)
-            items[item_id] = value
-            names[value.name] = item_id
             return item_id
 
         return add
@@ -58,7 +58,7 @@ class ScheduleAggregator:
     def link_group_subject(self, subject: str, group: str):
         g = g_id_by_name[group]
         s = s_id_by_name[subject]
-        self.groups[g].subjects.add(self.subjects[s])
+        self.groups[g].subjects.append(self.subjects[s])
 
     def finish_aggregation(self, possible: Callable[[int, int, int, int, int], bool]) -> SchState:
         return get_sch_init_state(

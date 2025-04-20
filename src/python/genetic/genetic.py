@@ -26,7 +26,7 @@ def cross(sch_1: MutableSchedule, sch_2: MutableSchedule, sch_state: SchState, e
     new_sch = MutableSchedule(days_num, slots_num)
 
     for l in range(1, days_num * slots_num):
-        day_num, slot_num = sch_1.get_day_and_slot(l)
+        day_num, slot_num = sch_1.get_day_and_slot_num(l)
         slot_1 = sch_1[day_num][slot_num]
         slot_2 = sch_2[day_num][slot_num]
         new_slot, new_excluded_entities = cross_slot(slot_1, slot_2)
@@ -35,7 +35,7 @@ def cross(sch_1: MutableSchedule, sch_2: MutableSchedule, sch_state: SchState, e
         new_sch[day_num][slot_num] = fixed_slot
     sch_info = {}
     for l in range(1, days_num * slots_num):
-        day_num, slot_num = sch_1.get_day_and_slot(l)
+        day_num, slot_num = sch_1.get_day_and_slot_num(l)
         slot = new_sch[day_num][slot_num]
         fixed_slot, excluded_entities = fix_excluded_entities(slot, excluded_entities, sch_state)
         new_sch[day_num][slot_num] = fixed_slot

@@ -8,7 +8,7 @@ class Group(NameAware):
         self.is_real = is_real
         self.sub_groups = sub_groups
         self.volume = volume
-        self.subjects = set(subjects)
+        self.subjects = subjects
         if self.sub_groups is not None and self.is_real:
             raise Exception("Sub-groups must be none for real group")
 

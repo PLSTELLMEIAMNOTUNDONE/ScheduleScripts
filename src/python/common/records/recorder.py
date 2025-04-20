@@ -30,7 +30,7 @@ class Recorder:
 
     def __init__(self, file_domain: str, records_enable: bool, id: int):
         self.default_file_name = file_domain + "_record_" + str(id) + ".txt"
-        #deprecated
+        # deprecated
         self.records_enable = records_enable
         self.default_out = default_sout
 

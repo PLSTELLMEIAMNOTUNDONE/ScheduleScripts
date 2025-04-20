@@ -8,7 +8,7 @@ from src.python.schedule.config import temperature_hyper_enable, temperature_lin
 N = 2500
 k = N / 10
 
-
+# deprecated
 def temperature_hyper(t, i):
     return t / (0.005 * i)
 
@@ -31,6 +31,7 @@ def get_transition_fun() -> Callable:
     elif temperature_hyper_enable:
         return transition_hyper
     raise Exception("No transition enable")
+
 
 
 def transition_hyper(energy, temp):

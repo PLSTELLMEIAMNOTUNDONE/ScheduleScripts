@@ -1,7 +1,7 @@
 import json
 from types import SimpleNamespace
 
-from schedule.config import default_weeks
+from schedule.config import default_weeks, real_data
 from src.python.common.records.recorder import recorder
 from src.python.schedule.pre_process.ScheduleAggregator import ScheduleAggregator, g_id_by_name, t_id_by_name, \
     s_id_by_name
@@ -42,7 +42,10 @@ def map_json_to_group(json_data):
 
 
 def parse(line: str) -> list[str]:
-    x = line.replace("\t", ' ').split(' ')
+    if real_data:
+        x = line.split("\t")
+    else:
+        x = line.replace("\t", ' ').split(' ')
 
     ans = list(filter(lambda a: a != '', x))
     ans[-1].replace('\n', '')
@@ -92,7 +95,6 @@ def map_spbu_data_to_schedule(filename: str) -> SchState:
 
     def possible(g, t, r, s, l):
         return (g, t, s) in possible_events
-
     with open('C:\\Users\\lera\\PycharmProjects\\ScheduleScripts\\' + filename + ".txt",
               'r',
               encoding="utf-8") as data:

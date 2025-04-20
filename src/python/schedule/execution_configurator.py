@@ -36,7 +36,7 @@ class ExecutionConfiguration:
         self.flags = []
         self.at_most_one_group_for_time_flag = \
             ExecuteOption(True,
-                          1,
+                          3,
                           at_most_one_group_for_time,
                           "at_most_one_group_for_time"
                           )
@@ -71,7 +71,7 @@ class ExecutionConfiguration:
         self.flags.append(self.clustering_flag)
         self.exact_amount_of_classes_for_group_flag = \
             ExecuteOption(True,
-                          3,
+                          1,
                           exact_amount_of_classes_for_group,
                           "exact_amount_of_classes_for_group"
                           )
@@ -118,5 +118,5 @@ def full_instance() -> ExecutionConfiguration:
 def fast_instance() -> ExecutionConfiguration:
     config: ExecutionConfiguration = recorder.with_record("создание конфигурации", "конфигурации создана",
                                                           lambda: ExecutionConfiguration())
-    config.exclude_options_with_high_priority(6)
+    config.exclude_options_with_high_priority(4)
     return config

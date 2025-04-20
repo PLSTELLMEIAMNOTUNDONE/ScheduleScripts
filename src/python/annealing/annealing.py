@@ -10,12 +10,13 @@ recorder = recorder("Annealing", True)
 
 def energy_template_for_at_most_one_check(count_windows: bool,
                                           indexes: list[int],
-                                          index_for_entity):
-    def energy_imp(sa_state: AnnealingState,
+                                          index_for_event: Callable[[Event, AnnealingState2], int],
+                                          slot_for_event: Callable[[Event, AnnealingState2], int]):
+    def energy_imp(sa_state: AnnealingState2,
                    schedule: Schedule):
         cons = {}
-        bad_coef_window = 10
-        bad_coef_same_day = 1000
+        bad_coef_window = 1
+        bad_coef_same_day = 100
         ans = 0
         last_in_day = {}
         for d in schedule.days.keys():
@@ -25,12 +26,15 @@ def energy_template_for_at_most_one_check(count_windows: bool,
 
         for d, day in schedule.days.items():
             for p, slot in day.slots.items():
-                for entity in slot.state:
-                    l = slot.raw_num
-                    index = index_for_entity(entity, sa_state)
+                for event in slot.state:
+                    l = slot_for_event(event, sa_state)
+                    if l == -1:
+                        l = slot.raw_num
+                    index = index_for_event(event, sa_state)
                     if (index, l) not in cons.keys():
                         cons[(index, l)] = 0
                     cons[(index, l)] += 1
+
                     if cons[(index, l)] > 1:
                         ans += bad_coef_same_day
                     if last_in_day[d][index] != -1 and last_in_day[d][index] < p - 1 and count_windows:
@@ -38,9 +42,7 @@ def energy_template_for_at_most_one_check(count_windows: bool,
                     last_in_day[d][index] = p
 
         return ans
-
     return energy_imp
-
 
 # deprecated
 def energy(sa_state: AnnealingState,
@@ -71,16 +73,18 @@ def energy(sa_state: AnnealingState,
     return ans
 
 
-def get_teacher_by_entity(entity, sa_state: AnnealingState):
-    g, r, s, _ = entity
+def get_teacher_by_event(event, sa_state: AnnealingState):
+    g, r, s, _ = event
     t = sa_state.state_map[(s, g)]
     return t
 
+def get_slot_by_event(event, sa_state: AnnealingState2):
+    return sa_state.state_map.get(event, -1)
 
 def SA_for_teachers(schedule: Schedule,
                     energy_func,
                     eps=1e-1000,
-                    temp=1000000):
+                    temp=10000):
     sa_state = init_state(schedule)
     E = energy_func(sa_state, schedule)
     transition_func = get_transition_fun()
@@ -89,8 +93,9 @@ def SA_for_teachers(schedule: Schedule,
     best_state = sa_state.copy()
     best_E = E
     while temp > eps:
-
         start_time = time.time()
+        recorder.record(f'step: {i}, enegry : {E}, temp : {temp}, time : {time.time() - start_time}')
+        recorder.record(f'step: {i}, enegry : {best_E}, temp : {temp}')
         fix = sa_state.change_schedule(schedule)
 
         new_E = energy_func(sa_state, schedule)
@@ -109,6 +114,40 @@ def SA_for_teachers(schedule: Schedule,
             recorder.record("break")
             break
         i += 1
-        recorder.record(f'step: {i}, enegry : {E}, temp : {temp}, time : {time.time() - start_time}')
-    recorder.record(f'step: {i}, enegry : {best_E}, temp : {temp}')
+    return best_state
+
+
+def annealing_default(schedule: Schedule,
+                    energy_func,
+                    eps=1e-1000,
+                    temp=10000000):
+    sa_state = init_state2(schedule)
+    E = energy_func(sa_state, schedule)
+    transition_func = get_transition_fun()
+    temp_func = get_temp_fun()
+    i = 1
+    best_state = sa_state.copy()
+    best_E = E
+    while temp > eps:
+
+        start_time = time.time()
+        fix = sa_state.change_schedule()
+        new_E = energy_func(sa_state, schedule)
+        delt_E = new_E - E
+        if delt_E >= 0 and not transition_func(delt_E, temp):
+            recorder.record("fixed")
+            fix()
+        else:
+            recorder.record("changed")
+            E = new_E
+        if E < best_E:
+            best_E = E
+            best_state = sa_state.copy()
+        temp = temp_func(temp, i)
+        if best_E == 0:
+            recorder.record("break")
+            break
+        i += 1
+        recorder.record(f'step: {i}, energy : {E}, temp : {temp}, time : {time.time() - start_time}')
+    recorder.record(f'step: {i}, energy : {best_E}, temp : {temp}')
     return best_state

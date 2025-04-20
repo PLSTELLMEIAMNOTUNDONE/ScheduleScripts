@@ -48,6 +48,7 @@ class SchState:
             for s in g.subjects:
                 self.subject_group_map[(s.num, g.num)] = s.amount
 
+        #cache
         def default_possible(g, t, r, s, l):
             group = self.groups[g]
             subject = self.subjects[s]
