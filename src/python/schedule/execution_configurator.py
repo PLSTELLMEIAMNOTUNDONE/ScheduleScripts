@@ -112,7 +112,10 @@ class ExecutionConfiguration:
 
 
 def full_instance() -> ExecutionConfiguration:
-    return recorder.with_record("создание конфигурации", "конфигурации создана", lambda: ExecutionConfiguration())
+    config: ExecutionConfiguration = recorder.with_record("создание конфигурации", "конфигурации создана",
+                                                          lambda: ExecutionConfiguration())
+    config.exclude_options_with_high_priority(8)
+    return config
 
 
 def fast_instance() -> ExecutionConfiguration:

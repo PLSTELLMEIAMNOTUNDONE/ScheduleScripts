@@ -16,6 +16,9 @@ def session_id():
     cache["session_id"] = n
     return n
 
+def clear_cache():
+    cache.clear()
+
 
 def recorder(domain: str, flag: bool):
 

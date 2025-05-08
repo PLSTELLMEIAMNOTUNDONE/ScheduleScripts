@@ -20,6 +20,7 @@ def execute_task(sch_state):
 
 def process(sch_states: list[SchState]):
     i = 0
+    ans = []
     for sch_state in sch_states:
         i += 1
         start = time.time()
@@ -49,9 +50,9 @@ def process(sch_states: list[SchState]):
         schedule, schedule_res = recorder.record_with_time(lambda: execute_task(sch_state))
         recorder.record("Завершился начальный этап")
 
-        sa_state = SA_for_teachers(schedule=schedule,
-                                     energy_func=energy_for_teacher)
-        recorder.record_with_time(lambda: sa_state.construct_schedule(schedule))
+        # sa_state = SA_for_teachers(schedule=schedule,
+        #                              energy_func=energy_for_teacher)
+        # recorder.record_with_time(lambda: sa_state.construct_schedule(schedule))
         sa_state = annealing_default(schedule=schedule,
                                      energy_func=energy)
 
@@ -81,6 +82,8 @@ def process(sch_states: list[SchState]):
                         g, r, s, t = entity
 
                         print((sch_state.groups[g], sch_state.teachers[t], sch_state.rooms[r], sch_state.subjects[s]))
+        ans.append(best_energy)
+    return ans
 
 
 if __name__ == "__main__":

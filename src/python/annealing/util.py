@@ -5,7 +5,7 @@ from typing import Callable
 from src.python.schedule.config import temperature_hyper_enable, temperature_linear_enable
 
 # !!!!!!!!!!
-N = 2500
+N = 4000
 k = N / 10
 
 # deprecated

@@ -1,10 +1,9 @@
 import json
 from types import SimpleNamespace
 
-from schedule.config import default_weeks, real_data
+from schedule.config import default_weeks, real_data, test_with_grouping
 from src.python.common.records.recorder import recorder
-from src.python.schedule.pre_process.ScheduleAggregator import ScheduleAggregator, g_id_by_name, t_id_by_name, \
-    s_id_by_name
+from src.python.schedule.pre_process.ScheduleAggregator import ScheduleAggregator
 from src.python.schedule.schedule import Schedule
 from src.python.schedule.schedule_state import SchState
 from src.python.schedule.schedule_state import get_sch_init_state
@@ -70,11 +69,12 @@ sub_group_name_map = {
 
 
 def parse_group_info(line: str) -> tuple[bool, list[str]]:
-    line = line.replace("\n", '').replace(' ', '')
-    if line in sub_group_name_map.keys():
-        return False, sub_group_name_map[line]
-    groups = line.split(',')
-    return True, groups
+    if real_data:
+        line = line.replace("\n", '').replace(' ', '')
+        if line in sub_group_name_map.keys():
+            return False, sub_group_name_map[line]
+        groups = line.split(',')
+        return True, groups
 
 
 def parse_room(line: str) -> list[str]:
@@ -88,20 +88,28 @@ def parse_room(line: str) -> list[str]:
 log = recorder("parser", True)
 
 
-def map_spbu_data_to_schedule(filename: str) -> SchState:
+def generate_group_info(name: str):
+    id = int(name.replace("\n", "")[-1])
+    if (id + 1) % 3 == 0:
+        return False, [f"group_{id - 1}\n", f"group_{id - 2}\n"]
+    return True, [name]
+
+def map_spbu_data_to_schedule(filename: str,
+                              filename_for_rooms: str = '\\src\\python\\resources\\test_rooms') -> SchState:
     agg = ScheduleAggregator(30)
     weeks = default_weeks
     possible_events = set()
 
     def possible(g, t, r, s, l):
         return (g, t, s) in possible_events
+
     with open('C:\\Users\\lera\\PycharmProjects\\ScheduleScripts\\' + filename + ".txt",
               'r',
               encoding="utf-8") as data:
         for line in data.readlines():
 
             info = parse(line)
-            if len(info) == 0 or len(line) == 0:
+            if len(info) == 0 or len(line) == 0 or info[0] == "\n":
                 continue
             s_name = info[0]
             t_name = info[2]
@@ -110,27 +118,28 @@ def map_spbu_data_to_schedule(filename: str) -> SchState:
             s_amount = int(s_hours / weeks)
             if s_amount == 0:
                 continue
-
-            is_real, g_names = parse_group_info(g_real_name)
-
+            if not test_with_grouping:
+                is_real, g_names = parse_group_info(g_real_name)
+            else:
+                is_real, g_names = generate_group_info(g_real_name)
             agg.write_teacher(t_name)
             agg.write_subject(s_name, s_amount, [])
             for g_name in g_names:
-                agg.write_group(g_name, True, 15)
+                agg.write_group(g_name, True, 0)
                 if is_real:
                     agg.link_group_subject(s_name, g_name)
                     possible_events.add(
-                        (g_id_by_name[g_name], t_id_by_name[t_name], s_id_by_name[s_name]))
+                        (agg.g_id_by_name[g_name], agg.t_id_by_name[t_name], agg.s_id_by_name[s_name]))
             if not is_real:
                 sub_groups = []
                 for g_name in g_names:
-                    sub_groups.append(g_id_by_name[g_name])
+                    sub_groups.append(agg.g_id_by_name[g_name])
                 agg.write_group(g_real_name, False, 15 * len(sub_groups), sub_groups)
                 agg.link_group_subject(s_name, g_real_name)
                 possible_events.add(
-                    (g_id_by_name[g_real_name], t_id_by_name[t_name], s_id_by_name[s_name]))
+                    (agg.g_id_by_name[g_real_name], agg.t_id_by_name[t_name], agg.s_id_by_name[s_name]))
 
-    with open('C:\\Users\\lera\\PycharmProjects\\ScheduleScripts\\src\\python\\resources\\test_rooms.txt',
+    with open('C:\\Users\\lera\\PycharmProjects\\ScheduleScripts\\' + filename_for_rooms + ".txt",
               'r',
               encoding="utf-8") as data:
         for line in data.readlines():

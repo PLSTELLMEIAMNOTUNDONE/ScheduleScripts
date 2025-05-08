@@ -1,0 +1,947 @@
+C:\Users\lera\PycharmProjects\pythonProject\.venv\Scripts\python.exe C:\Users\lera\PycharmProjects\ScheduleScripts\src\python\testing\testing.py
+teacher_size: 1, group_size: 1, rooms_size: 1
+
+process took 0.1589374542236328
+teacher_size: 1, group_size: 1, rooms_size: 2
+
+process took 0.21911954879760742
+teacher_size: 1, group_size: 1, rooms_size: 3
+
+process took 0.25710082054138184
+teacher_size: 1, group_size: 1, rooms_size: 4
+
+process took 0.22232794761657715
+teacher_size: 1, group_size: 1, rooms_size: 5
+
+process took 0.22111272811889648
+teacher_size: 1, group_size: 1, rooms_size: 6
+
+process took 0.2586202621459961
+teacher_size: 1, group_size: 1, rooms_size: 7
+
+process took 0.24457216262817383
+teacher_size: 1, group_size: 2, rooms_size: 1
+
+process took 0.2183210849761963
+teacher_size: 1, group_size: 2, rooms_size: 2
+
+process took 0.23418664932250977
+teacher_size: 1, group_size: 2, rooms_size: 3
+
+process took 0.2586512565612793
+teacher_size: 1, group_size: 2, rooms_size: 4
+
+process took 0.2843616008758545
+teacher_size: 1, group_size: 2, rooms_size: 5
+
+process took 0.4069936275482178
+teacher_size: 1, group_size: 2, rooms_size: 6
+
+process took 0.2758519649505615
+teacher_size: 1, group_size: 2, rooms_size: 7
+
+process took 0.19829559326171875
+teacher_size: 1, group_size: 3, rooms_size: 1
+
+process took 0.29340577125549316
+teacher_size: 1, group_size: 3, rooms_size: 2
+
+process took 0.34999585151672363
+teacher_size: 1, group_size: 3, rooms_size: 3
+
+process took 0.3634650707244873
+teacher_size: 1, group_size: 3, rooms_size: 4
+
+process took 0.4032862186431885
+teacher_size: 1, group_size: 3, rooms_size: 5
+
+process took 0.395810604095459
+teacher_size: 1, group_size: 3, rooms_size: 6
+
+process took 0.3987236022949219
+teacher_size: 1, group_size: 3, rooms_size: 7
+
+process took 0.33000683784484863
+teacher_size: 1, group_size: 4, rooms_size: 1
+
+process took 0.34607625007629395
+teacher_size: 1, group_size: 4, rooms_size: 2
+
+process took 0.26451992988586426
+teacher_size: 1, group_size: 4, rooms_size: 3
+
+process took 0.35036444664001465
+teacher_size: 1, group_size: 4, rooms_size: 4
+
+process took 0.48012542724609375
+teacher_size: 1, group_size: 4, rooms_size: 5
+
+process took 0.38455843925476074
+teacher_size: 1, group_size: 4, rooms_size: 6
+
+process took 0.4049408435821533
+teacher_size: 1, group_size: 4, rooms_size: 7
+
+process took 0.37497425079345703
+teacher_size: 1, group_size: 5, rooms_size: 1
+
+process took 0.31053757667541504
+teacher_size: 1, group_size: 5, rooms_size: 2
+
+process took 0.27765345573425293
+teacher_size: 1, group_size: 5, rooms_size: 3
+
+process took 0.35705995559692383
+teacher_size: 1, group_size: 5, rooms_size: 4
+
+process took 0.32279324531555176
+teacher_size: 1, group_size: 5, rooms_size: 5
+
+process took 0.5981614589691162
+teacher_size: 1, group_size: 5, rooms_size: 6
+
+process took 0.47867679595947266
+teacher_size: 1, group_size: 5, rooms_size: 7
+
+process took 0.4445984363555908
+teacher_size: 1, group_size: 6, rooms_size: 1
+
+process took 0.2994053363800049
+teacher_size: 1, group_size: 6, rooms_size: 2
+
+process took 0.36358141899108887
+teacher_size: 1, group_size: 6, rooms_size: 3
+
+process took 0.3911550045013428
+teacher_size: 1, group_size: 6, rooms_size: 4
+
+process took 0.3816664218902588
+teacher_size: 1, group_size: 6, rooms_size: 5
+
+process took 0.4340231418609619
+teacher_size: 1, group_size: 6, rooms_size: 6
+
+process took 0.39897990226745605
+teacher_size: 1, group_size: 6, rooms_size: 7
+
+process took 0.46679091453552246
+teacher_size: 1, group_size: 7, rooms_size: 1
+
+process took 0.38129568099975586
+teacher_size: 1, group_size: 7, rooms_size: 2
+
+process took 0.365675687789917
+teacher_size: 1, group_size: 7, rooms_size: 3
+
+process took 0.3580057621002197
+teacher_size: 1, group_size: 7, rooms_size: 4
+
+process took 0.4125940799713135
+teacher_size: 1, group_size: 7, rooms_size: 5
+
+process took 0.37981486320495605
+teacher_size: 1, group_size: 7, rooms_size: 6
+
+process took 0.41123199462890625
+teacher_size: 1, group_size: 7, rooms_size: 7
+
+process took 0.48057055473327637
+teacher_size: 2, group_size: 1, rooms_size: 1
+
+process took 0.2887296676635742
+teacher_size: 2, group_size: 1, rooms_size: 2
+
+process took 0.30596017837524414
+teacher_size: 2, group_size: 1, rooms_size: 3
+
+process took 0.34645628929138184
+teacher_size: 2, group_size: 1, rooms_size: 4
+
+process took 0.3897242546081543
+teacher_size: 2, group_size: 1, rooms_size: 5
+
+process took 0.34497928619384766
+teacher_size: 2, group_size: 1, rooms_size: 6
+
+process took 0.35665345191955566
+teacher_size: 2, group_size: 1, rooms_size: 7
+
+process took 0.3771553039550781
+teacher_size: 2, group_size: 2, rooms_size: 1
+
+process took 0.4148678779602051
+teacher_size: 2, group_size: 2, rooms_size: 2
+
+process took 0.3357703685760498
+teacher_size: 2, group_size: 2, rooms_size: 3
+
+process took 0.3633582592010498
+teacher_size: 2, group_size: 2, rooms_size: 4
+
+process took 0.40359973907470703
+teacher_size: 2, group_size: 2, rooms_size: 5
+
+process took 0.4007859230041504
+teacher_size: 2, group_size: 2, rooms_size: 6
+
+process took 0.40041160583496094
+teacher_size: 2, group_size: 2, rooms_size: 7
+
+process took 0.4567389488220215
+teacher_size: 2, group_size: 3, rooms_size: 1
+
+process took 0.39229249954223633
+teacher_size: 2, group_size: 3, rooms_size: 2
+
+process took 0.3507208824157715
+teacher_size: 2, group_size: 3, rooms_size: 3
+
+process took 0.46883177757263184
+teacher_size: 2, group_size: 3, rooms_size: 4
+
+process took 0.46437811851501465
+teacher_size: 2, group_size: 3, rooms_size: 5
+
+process took 0.49094176292419434
+teacher_size: 2, group_size: 3, rooms_size: 6
+
+process took 0.44658589363098145
+teacher_size: 2, group_size: 3, rooms_size: 7
+
+process took 0.5511517524719238
+teacher_size: 2, group_size: 4, rooms_size: 1
+
+process took 0.37111401557922363
+teacher_size: 2, group_size: 4, rooms_size: 2
+
+process took 0.4674229621887207
+teacher_size: 2, group_size: 4, rooms_size: 3
+
+process took 0.5159292221069336
+teacher_size: 2, group_size: 4, rooms_size: 4
+
+process took 0.5028424263000488
+teacher_size: 2, group_size: 4, rooms_size: 5
+
+process took 0.5728449821472168
+teacher_size: 2, group_size: 4, rooms_size: 6
+
+process took 0.5091283321380615
+teacher_size: 2, group_size: 4, rooms_size: 7
+
+process took 0.527338981628418
+teacher_size: 2, group_size: 5, rooms_size: 1
+
+process took 0.3553004264831543
+teacher_size: 2, group_size: 5, rooms_size: 2
+
+process took 0.44003939628601074
+teacher_size: 2, group_size: 5, rooms_size: 3
+
+process took 0.44283246994018555
+teacher_size: 2, group_size: 5, rooms_size: 4
+
+process took 0.4904904365539551
+teacher_size: 2, group_size: 5, rooms_size: 5
+
+process took 0.6492645740509033
+teacher_size: 2, group_size: 5, rooms_size: 6
+
+process took 0.7377541065216064
+teacher_size: 2, group_size: 5, rooms_size: 7
+
+process took 0.7077507972717285
+teacher_size: 2, group_size: 6, rooms_size: 1
+
+process took 0.3944423198699951
+teacher_size: 2, group_size: 6, rooms_size: 2
+
+process took 0.4552795886993408
+teacher_size: 2, group_size: 6, rooms_size: 3
+
+process took 0.4797074794769287
+teacher_size: 2, group_size: 6, rooms_size: 4
+
+process took 0.6235349178314209
+teacher_size: 2, group_size: 6, rooms_size: 5
+
+process took 0.7534241676330566
+teacher_size: 2, group_size: 6, rooms_size: 6
+
+process took 0.7836086750030518
+teacher_size: 2, group_size: 6, rooms_size: 7
+
+process took 0.831963062286377
+teacher_size: 2, group_size: 7, rooms_size: 1
+
+process took 0.4233975410461426
+teacher_size: 2, group_size: 7, rooms_size: 2
+
+process took 0.5253801345825195
+teacher_size: 2, group_size: 7, rooms_size: 3
+
+process took 0.5463056564331055
+teacher_size: 2, group_size: 7, rooms_size: 4
+
+process took 0.6153855323791504
+teacher_size: 2, group_size: 7, rooms_size: 5
+
+process took 0.7352433204650879
+teacher_size: 2, group_size: 7, rooms_size: 6
+
+process took 0.7563462257385254
+teacher_size: 2, group_size: 7, rooms_size: 7
+
+process took 0.9384233951568604
+teacher_size: 3, group_size: 1, rooms_size: 1
+
+process took 0.31920838356018066
+teacher_size: 3, group_size: 1, rooms_size: 2
+
+process took 0.3040788173675537
+teacher_size: 3, group_size: 1, rooms_size: 3
+
+process took 0.2932140827178955
+teacher_size: 3, group_size: 1, rooms_size: 4
+
+process took 0.3513448238372803
+teacher_size: 3, group_size: 1, rooms_size: 5
+
+process took 0.3523423671722412
+teacher_size: 3, group_size: 1, rooms_size: 6
+
+process took 0.3507709503173828
+teacher_size: 3, group_size: 1, rooms_size: 7
+
+process took 0.3759605884552002
+teacher_size: 3, group_size: 2, rooms_size: 1
+
+process took 0.35023999214172363
+teacher_size: 3, group_size: 2, rooms_size: 2
+
+process took 0.34409260749816895
+teacher_size: 3, group_size: 2, rooms_size: 3
+
+process took 0.397641658782959
+teacher_size: 3, group_size: 2, rooms_size: 4
+
+process took 0.30658745765686035
+teacher_size: 3, group_size: 2, rooms_size: 5
+
+process took 0.42111706733703613
+teacher_size: 3, group_size: 2, rooms_size: 6
+
+process took 0.5052804946899414
+teacher_size: 3, group_size: 2, rooms_size: 7
+
+process took 0.6641430854797363
+teacher_size: 3, group_size: 3, rooms_size: 1
+
+process took 0.39003753662109375
+teacher_size: 3, group_size: 3, rooms_size: 2
+
+process took 0.33067989349365234
+teacher_size: 3, group_size: 3, rooms_size: 3
+
+process took 0.3565993309020996
+teacher_size: 3, group_size: 3, rooms_size: 4
+
+process took 0.5690064430236816
+teacher_size: 3, group_size: 3, rooms_size: 5
+
+process took 0.5295770168304443
+teacher_size: 3, group_size: 3, rooms_size: 6
+
+process took 0.5331416130065918
+teacher_size: 3, group_size: 3, rooms_size: 7
+
+process took 0.5955884456634521
+teacher_size: 3, group_size: 4, rooms_size: 1
+
+process took 0.360076904296875
+teacher_size: 3, group_size: 4, rooms_size: 2
+
+process took 0.29719042778015137
+teacher_size: 3, group_size: 4, rooms_size: 3
+
+process took 0.36500024795532227
+teacher_size: 3, group_size: 4, rooms_size: 4
+
+process took 0.5748691558837891
+teacher_size: 3, group_size: 4, rooms_size: 5
+
+process took 0.8498167991638184
+teacher_size: 3, group_size: 4, rooms_size: 6
+
+process took 0.8523354530334473
+teacher_size: 3, group_size: 4, rooms_size: 7
+
+process took 0.8698940277099609
+teacher_size: 3, group_size: 5, rooms_size: 1
+
+process took 0.3990201950073242
+teacher_size: 3, group_size: 5, rooms_size: 2
+
+process took 0.393235445022583
+teacher_size: 3, group_size: 5, rooms_size: 3
+
+process took 0.43171191215515137
+teacher_size: 3, group_size: 5, rooms_size: 4
+
+process took 0.710930585861206
+teacher_size: 3, group_size: 5, rooms_size: 5
+
+process took 0.7511632442474365
+teacher_size: 3, group_size: 5, rooms_size: 6
+
+process took 0.7478988170623779
+teacher_size: 3, group_size: 5, rooms_size: 7
+
+process took 0.8847441673278809
+teacher_size: 3, group_size: 6, rooms_size: 2
+
+process took 0.4746363162994385
+teacher_size: 3, group_size: 6, rooms_size: 3
+
+process took 0.8127954006195068
+teacher_size: 3, group_size: 6, rooms_size: 4
+
+process took 0.9658534526824951
+teacher_size: 3, group_size: 6, rooms_size: 5
+
+process took 0.991898775100708
+teacher_size: 3, group_size: 6, rooms_size: 6
+
+process took 1.0588302612304688
+teacher_size: 3, group_size: 6, rooms_size: 7
+
+process took 1.1063387393951416
+teacher_size: 3, group_size: 7, rooms_size: 2
+
+process took 0.5098204612731934
+teacher_size: 3, group_size: 7, rooms_size: 3
+
+process took 0.5998873710632324
+teacher_size: 3, group_size: 7, rooms_size: 4
+
+process took 0.7578144073486328
+teacher_size: 3, group_size: 7, rooms_size: 5
+
+process took 0.9768033027648926
+teacher_size: 3, group_size: 7, rooms_size: 6
+
+process took 1.151428461074829
+teacher_size: 3, group_size: 7, rooms_size: 7
+
+process took 1.254662036895752
+teacher_size: 4, group_size: 1, rooms_size: 1
+
+process took 0.3298211097717285
+teacher_size: 4, group_size: 1, rooms_size: 2
+
+process took 0.33634138107299805
+teacher_size: 4, group_size: 1, rooms_size: 3
+
+process took 0.3327052593231201
+teacher_size: 4, group_size: 1, rooms_size: 4
+
+process took 0.3962366580963135
+teacher_size: 4, group_size: 1, rooms_size: 5
+
+process took 0.36635851860046387
+teacher_size: 4, group_size: 1, rooms_size: 6
+
+process took 0.3168153762817383
+teacher_size: 4, group_size: 1, rooms_size: 7
+
+process took 0.3368232250213623
+teacher_size: 4, group_size: 2, rooms_size: 1
+
+process took 0.31357836723327637
+teacher_size: 4, group_size: 2, rooms_size: 2
+
+process took 0.3408536911010742
+teacher_size: 4, group_size: 2, rooms_size: 3
+
+process took 0.47124385833740234
+teacher_size: 4, group_size: 2, rooms_size: 4
+
+process took 0.3256821632385254
+teacher_size: 4, group_size: 2, rooms_size: 5
+
+process took 0.4086289405822754
+teacher_size: 4, group_size: 2, rooms_size: 6
+
+process took 0.5202443599700928
+teacher_size: 4, group_size: 2, rooms_size: 7
+
+process took 0.5629615783691406
+teacher_size: 4, group_size: 3, rooms_size: 1
+
+process took 0.34691452980041504
+teacher_size: 4, group_size: 3, rooms_size: 2
+
+process took 0.4105055332183838
+teacher_size: 4, group_size: 3, rooms_size: 3
+
+process took 0.44397854804992676
+teacher_size: 4, group_size: 3, rooms_size: 4
+
+process took 0.47707223892211914
+teacher_size: 4, group_size: 3, rooms_size: 5
+
+process took 0.6022381782531738
+teacher_size: 4, group_size: 3, rooms_size: 6
+
+process took 0.6899089813232422
+teacher_size: 4, group_size: 3, rooms_size: 7
+
+process took 0.7083249092102051
+teacher_size: 4, group_size: 4, rooms_size: 2
+
+process took 0.4852418899536133
+teacher_size: 4, group_size: 4, rooms_size: 3
+
+process took 0.5533912181854248
+teacher_size: 4, group_size: 4, rooms_size: 4
+
+process took 0.664515495300293
+teacher_size: 4, group_size: 4, rooms_size: 5
+
+process took 0.7635936737060547
+teacher_size: 4, group_size: 4, rooms_size: 6
+
+process took 1.0061805248260498
+teacher_size: 4, group_size: 4, rooms_size: 7
+
+process took 0.9779698848724365
+teacher_size: 4, group_size: 5, rooms_size: 2
+
+process took 0.6251416206359863
+teacher_size: 4, group_size: 5, rooms_size: 3
+
+process took 0.779433012008667
+teacher_size: 4, group_size: 5, rooms_size: 4
+
+process took 0.7500429153442383
+teacher_size: 4, group_size: 5, rooms_size: 5
+
+process took 0.9465765953063965
+teacher_size: 4, group_size: 5, rooms_size: 6
+
+process took 2.7388527393341064
+teacher_size: 4, group_size: 5, rooms_size: 7
+
+process took 3.2098441123962402
+teacher_size: 4, group_size: 6, rooms_size: 2
+
+process took 1.7415456771850586
+teacher_size: 4, group_size: 6, rooms_size: 3
+
+process took 1.8689632415771484
+teacher_size: 4, group_size: 6, rooms_size: 4
+
+process took 2.2889904975891113
+teacher_size: 4, group_size: 6, rooms_size: 5
+
+process took 1.3347887992858887
+teacher_size: 4, group_size: 6, rooms_size: 6
+
+process took 1.261396884918213
+teacher_size: 4, group_size: 6, rooms_size: 7
+
+process took 1.4179604053497314
+teacher_size: 4, group_size: 7, rooms_size: 2
+
+process took 0.5838236808776855
+teacher_size: 4, group_size: 7, rooms_size: 3
+
+process took 0.7200174331665039
+teacher_size: 4, group_size: 7, rooms_size: 4
+
+process took 0.927523136138916
+teacher_size: 4, group_size: 7, rooms_size: 5
+
+process took 1.2358636856079102
+teacher_size: 4, group_size: 7, rooms_size: 6
+
+process took 1.4816224575042725
+teacher_size: 4, group_size: 7, rooms_size: 7
+
+process took 1.7640175819396973
+teacher_size: 5, group_size: 1, rooms_size: 1
+
+process took 0.3247687816619873
+teacher_size: 5, group_size: 1, rooms_size: 2
+
+process took 0.3784000873565674
+teacher_size: 5, group_size: 1, rooms_size: 3
+
+process took 0.3056056499481201
+teacher_size: 5, group_size: 1, rooms_size: 4
+
+process took 0.39852237701416016
+teacher_size: 5, group_size: 1, rooms_size: 5
+
+process took 0.3510444164276123
+teacher_size: 5, group_size: 1, rooms_size: 6
+
+process took 0.38616394996643066
+teacher_size: 5, group_size: 1, rooms_size: 7
+
+process took 0.3671896457672119
+teacher_size: 5, group_size: 2, rooms_size: 1
+
+process took 0.39424896240234375
+teacher_size: 5, group_size: 2, rooms_size: 2
+
+process took 0.35310959815979004
+teacher_size: 5, group_size: 2, rooms_size: 3
+
+process took 0.35282444953918457
+teacher_size: 5, group_size: 2, rooms_size: 4
+
+process took 0.518517255783081
+teacher_size: 5, group_size: 2, rooms_size: 5
+
+process took 0.593437671661377
+teacher_size: 5, group_size: 2, rooms_size: 6
+
+process took 0.4828038215637207
+teacher_size: 5, group_size: 2, rooms_size: 7
+
+process took 0.702500581741333
+teacher_size: 5, group_size: 3, rooms_size: 1
+
+process took 0.3835766315460205
+teacher_size: 5, group_size: 3, rooms_size: 2
+
+process took 0.38465404510498047
+teacher_size: 5, group_size: 3, rooms_size: 3
+
+process took 0.4104888439178467
+teacher_size: 5, group_size: 3, rooms_size: 4
+
+process took 0.5184409618377686
+teacher_size: 5, group_size: 3, rooms_size: 5
+
+process took 0.6371335983276367
+teacher_size: 5, group_size: 3, rooms_size: 6
+
+process took 0.832801103591919
+teacher_size: 5, group_size: 3, rooms_size: 7
+
+process took 0.8960573673248291
+teacher_size: 5, group_size: 4, rooms_size: 2
+
+process took 0.4453012943267822
+teacher_size: 5, group_size: 4, rooms_size: 3
+
+process took 0.5776739120483398
+teacher_size: 5, group_size: 4, rooms_size: 4
+
+process took 0.7639389038085938
+teacher_size: 5, group_size: 4, rooms_size: 5
+
+process took 0.8391082286834717
+teacher_size: 5, group_size: 4, rooms_size: 6
+
+process took 1.0253551006317139
+teacher_size: 5, group_size: 4, rooms_size: 7
+
+process took 1.1476943492889404
+teacher_size: 5, group_size: 5, rooms_size: 2
+
+process took 0.5865368843078613
+teacher_size: 5, group_size: 5, rooms_size: 3
+
+process took 0.6901652812957764
+teacher_size: 5, group_size: 5, rooms_size: 4
+
+process took 0.922753095626831
+teacher_size: 5, group_size: 5, rooms_size: 5
+
+process took 1.1311445236206055
+teacher_size: 5, group_size: 5, rooms_size: 6
+
+process took 1.2812800407409668
+teacher_size: 5, group_size: 5, rooms_size: 7
+
+process took 1.5271260738372803
+teacher_size: 5, group_size: 6, rooms_size: 2
+
+process took 0.6130430698394775
+teacher_size: 5, group_size: 6, rooms_size: 3
+
+process took 0.7920455932617188
+teacher_size: 5, group_size: 6, rooms_size: 4
+
+process took 1.0652635097503662
+teacher_size: 5, group_size: 6, rooms_size: 5
+
+process took 1.2547378540039062
+teacher_size: 5, group_size: 6, rooms_size: 6
+
+process took 1.5852422714233398
+teacher_size: 5, group_size: 6, rooms_size: 7
+
+process took 1.8682904243469238
+teacher_size: 5, group_size: 7, rooms_size: 3
+
+process took 0.9796099662780762
+teacher_size: 5, group_size: 7, rooms_size: 4
+
+process took 1.246868371963501
+teacher_size: 5, group_size: 7, rooms_size: 5
+
+process took 1.6285719871520996
+teacher_size: 5, group_size: 7, rooms_size: 6
+
+process took 1.9183807373046875
+teacher_size: 5, group_size: 7, rooms_size: 7
+
+process took 2.329375743865967
+teacher_size: 6, group_size: 1, rooms_size: 1
+
+process took 0.30544519424438477
+teacher_size: 6, group_size: 1, rooms_size: 2
+
+process took 0.33235883712768555
+teacher_size: 6, group_size: 1, rooms_size: 3
+
+process took 0.3500187397003174
+teacher_size: 6, group_size: 1, rooms_size: 4
+
+process took 0.32216954231262207
+teacher_size: 6, group_size: 1, rooms_size: 5
+
+process took 0.4026217460632324
+teacher_size: 6, group_size: 1, rooms_size: 6
+
+process took 0.3750271797180176
+teacher_size: 6, group_size: 1, rooms_size: 7
+
+process took 0.40386962890625
+teacher_size: 6, group_size: 2, rooms_size: 1
+
+process took 0.33689332008361816
+teacher_size: 6, group_size: 2, rooms_size: 2
+
+process took 0.31003808975219727
+teacher_size: 6, group_size: 2, rooms_size: 3
+
+process took 0.39103007316589355
+teacher_size: 6, group_size: 2, rooms_size: 4
+
+process took 0.5528621673583984
+teacher_size: 6, group_size: 2, rooms_size: 5
+
+process took 0.5581624507904053
+teacher_size: 6, group_size: 2, rooms_size: 6
+
+process took 0.6510121822357178
+teacher_size: 6, group_size: 2, rooms_size: 7
+
+process took 0.8184676170349121
+teacher_size: 6, group_size: 3, rooms_size: 2
+
+process took 0.4715158939361572
+teacher_size: 6, group_size: 3, rooms_size: 3
+
+process took 0.5820052623748779
+teacher_size: 6, group_size: 3, rooms_size: 4
+
+process took 0.7189192771911621
+teacher_size: 6, group_size: 3, rooms_size: 5
+
+process took 0.7921745777130127
+teacher_size: 6, group_size: 3, rooms_size: 6
+
+process took 0.9615535736083984
+teacher_size: 6, group_size: 3, rooms_size: 7
+
+process took 1.0686585903167725
+teacher_size: 6, group_size: 4, rooms_size: 2
+
+process took 0.5145282745361328
+teacher_size: 6, group_size: 4, rooms_size: 3
+
+process took 0.7432723045349121
+teacher_size: 6, group_size: 4, rooms_size: 4
+
+process took 0.8829655647277832
+teacher_size: 6, group_size: 4, rooms_size: 5
+
+process took 0.9653873443603516
+teacher_size: 6, group_size: 4, rooms_size: 6
+
+process took 1.3058373928070068
+teacher_size: 6, group_size: 4, rooms_size: 7
+
+process took 1.358140230178833
+teacher_size: 6, group_size: 5, rooms_size: 2
+
+process took 0.5942213535308838
+teacher_size: 6, group_size: 5, rooms_size: 3
+
+process took 0.8294095993041992
+teacher_size: 6, group_size: 5, rooms_size: 4
+
+process took 1.0516419410705566
+teacher_size: 6, group_size: 5, rooms_size: 5
+
+process took 1.418947696685791
+teacher_size: 6, group_size: 5, rooms_size: 6
+
+process took 1.6681573390960693
+teacher_size: 6, group_size: 5, rooms_size: 7
+
+process took 1.8426949977874756
+teacher_size: 6, group_size: 6, rooms_size: 3
+
+process took 1.012608528137207
+teacher_size: 6, group_size: 6, rooms_size: 4
+
+process took 1.310436725616455
+teacher_size: 6, group_size: 6, rooms_size: 5
+
+process took 1.7423334121704102
+teacher_size: 6, group_size: 6, rooms_size: 6
+
+process took 2.093637704849243
+teacher_size: 6, group_size: 6, rooms_size: 7
+
+process took 2.4073734283447266
+teacher_size: 6, group_size: 7, rooms_size: 3
+
+process took 1.1849629878997803
+teacher_size: 6, group_size: 7, rooms_size: 4
+
+process took 1.5974693298339844
+teacher_size: 6, group_size: 7, rooms_size: 5
+
+process took 2.010834217071533
+teacher_size: 6, group_size: 7, rooms_size: 6
+
+process took 2.402851104736328
+teacher_size: 6, group_size: 7, rooms_size: 7
+
+process took 2.8218560218811035
+teacher_size: 7, group_size: 1, rooms_size: 1
+
+process took 0.378415584564209
+teacher_size: 7, group_size: 1, rooms_size: 2
+
+process took 0.289658784866333
+teacher_size: 7, group_size: 1, rooms_size: 3
+
+process took 0.33825254440307617
+teacher_size: 7, group_size: 1, rooms_size: 4
+
+process took 0.31815004348754883
+teacher_size: 7, group_size: 1, rooms_size: 5
+
+process took 0.3565349578857422
+teacher_size: 7, group_size: 1, rooms_size: 6
+
+process took 0.41689300537109375
+teacher_size: 7, group_size: 1, rooms_size: 7
+
+process took 0.40963053703308105
+teacher_size: 7, group_size: 2, rooms_size: 1
+
+process took 0.2877647876739502
+teacher_size: 7, group_size: 2, rooms_size: 2
+
+process took 0.477189302444458
+teacher_size: 7, group_size: 2, rooms_size: 3
+
+process took 0.44597840309143066
+teacher_size: 7, group_size: 2, rooms_size: 4
+
+process took 0.613008975982666
+teacher_size: 7, group_size: 2, rooms_size: 5
+
+process took 0.650153636932373
+teacher_size: 7, group_size: 2, rooms_size: 6
+
+process took 0.8044157028198242
+teacher_size: 7, group_size: 2, rooms_size: 7
+
+process took 0.9016094207763672
+teacher_size: 7, group_size: 3, rooms_size: 2
+
+process took 0.550473690032959
+teacher_size: 7, group_size: 3, rooms_size: 3
+
+process took 0.6619288921356201
+teacher_size: 7, group_size: 3, rooms_size: 4
+
+process took 0.6785843372344971
+teacher_size: 7, group_size: 3, rooms_size: 5
+
+process took 1.0608935356140137
+teacher_size: 7, group_size: 3, rooms_size: 6
+
+process took 1.4183521270751953
+teacher_size: 7, group_size: 3, rooms_size: 7
+
+process took 1.5451722145080566
+teacher_size: 7, group_size: 4, rooms_size: 2
+
+process took 0.736457109451294
+teacher_size: 7, group_size: 4, rooms_size: 3
+
+process took 0.8597972393035889
+teacher_size: 7, group_size: 4, rooms_size: 4
+
+process took 1.111724615097046
+teacher_size: 7, group_size: 4, rooms_size: 5
+
+process took 1.248943567276001
+teacher_size: 7, group_size: 4, rooms_size: 6
+
+process took 1.529395580291748
+teacher_size: 7, group_size: 4, rooms_size: 7
+
+process took 1.9052422046661377
+teacher_size: 7, group_size: 5, rooms_size: 3
+
+process took 1.1180944442749023
+teacher_size: 7, group_size: 5, rooms_size: 4
+
+process took 1.428450345993042
+teacher_size: 7, group_size: 5, rooms_size: 5
+
+process took 1.8598387241363525
+teacher_size: 7, group_size: 5, rooms_size: 6
+
+process took 2.151854991912842
+teacher_size: 7, group_size: 5, rooms_size: 7
+
+process took 2.487790584564209
+teacher_size: 7, group_size: 6, rooms_size: 3
+
+process took 1.178267002105713
+teacher_size: 7, group_size: 6, rooms_size: 4
+
+process took 1.6662354469299316
+teacher_size: 7, group_size: 6, rooms_size: 5
+
+process took 2.102307081222534
+teacher_size: 7, group_size: 6, rooms_size: 6
+
+process took 2.5222713947296143
+teacher_size: 7, group_size: 6, rooms_size: 7
+
+process took 3.1403303146362305
+teacher_size: 7, group_size: 7, rooms_size: 4
+
+process took 2.003662586212158
+teacher_size: 7, group_size: 7, rooms_size: 5
+
+process took 2.4529759883880615
+teacher_size: 7, group_size: 7, rooms_size: 6
+
+process took 2.964043617248535
+teacher_size: 7, group_size: 7, rooms_size: 7

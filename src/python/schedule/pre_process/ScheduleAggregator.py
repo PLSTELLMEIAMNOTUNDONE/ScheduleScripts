@@ -24,23 +24,23 @@ class IdManager:
             return item_id
 
         return add
-t_id_by_name = {}
-s_id_by_name = {}
-g_id_by_name = {}
-r_id_by_name = {}
+
 id_manager = IdManager()
 class ScheduleAggregator:
     def __init__(self, lessons: int):
-
+        self.t_id_by_name = {}
+        self.s_id_by_name = {}
+        self.g_id_by_name = {}
+        self.r_id_by_name = {}
         self.teachers = {}
         self.subjects = {}
         self.groups = {}
         self.rooms = {}
 
-        self.add_teacher = id_manager.add_with_id(self.teachers, t_id_by_name)
-        self.add_subject = id_manager.add_with_id(self.subjects, s_id_by_name)
-        self.add_group = id_manager.add_with_id(self.groups, g_id_by_name)
-        self.add_room = id_manager.add_with_id(self.rooms, r_id_by_name)
+        self.add_teacher = id_manager.add_with_id(self.teachers, self.t_id_by_name)
+        self.add_subject = id_manager.add_with_id(self.subjects, self.s_id_by_name)
+        self.add_group = id_manager.add_with_id(self.groups, self.g_id_by_name)
+        self.add_room = id_manager.add_with_id(self.rooms, self.r_id_by_name)
         self.lessons = lessons
 
     def write_teacher(self, name: str):
@@ -56,8 +56,8 @@ class ScheduleAggregator:
         self.add_subject(Subject(name, amount, requirements))
 
     def link_group_subject(self, subject: str, group: str):
-        g = g_id_by_name[group]
-        s = s_id_by_name[subject]
+        g = self.g_id_by_name[group]
+        s = self.s_id_by_name[subject]
         self.groups[g].subjects.append(self.subjects[s])
 
     def finish_aggregation(self, possible: Callable[[int, int, int, int, int], bool]) -> SchState:
